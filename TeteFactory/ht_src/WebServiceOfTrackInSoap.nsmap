@@ -1,0 +1,13 @@
+
+#include "soapH.h"
+SOAP_NMAC struct Namespace namespaces2[] =
+{
+	{"SOAP-ENV", "http://www.w3.org/2003/05/soap-envelope", "http://schemas.xmlsoap.org/soap/envelope/", NULL},
+	{"SOAP-ENC", "http://www.w3.org/2003/05/soap-encoding", "http://schemas.xmlsoap.org/soap/encoding/", NULL},
+	{"xsi", "http://www.w3.org/2001/XMLSchema-instance", "http://www.w3.org/*/XMLSchema-instance", NULL},
+	{"xsd", "http://www.w3.org/2001/XMLSchema", "http://www.w3.org/*/XMLSchema", NULL},
+	{"TrackIn2", "http://tempuri.org/Service1Soap", NULL, NULL},
+	{"TrackIn", "http://tempuri.org/", NULL, NULL},
+	{"TrackIn3", "http://tempuri.org/Service1Soap12", NULL, NULL},
+	{NULL, NULL, NULL, NULL}
+};

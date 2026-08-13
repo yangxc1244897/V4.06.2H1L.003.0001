@@ -1,0 +1,6 @@
+<Root>
+    <Module Name="IPG" File="tlDeviceIPG.dll"/>
+    <Default Name="IPG" File="tlDeviceIPG.dll"/>
+    <Module Name="DPY" File="tlDeviceDPY.dll"/>
+    <Module Name="UV" File="tlDeviceUV.dll"/>
+</Root>

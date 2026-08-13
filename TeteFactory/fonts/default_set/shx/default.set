@@ -1,0 +1,8 @@
+[Global]
+
+[codepage]
+list=complex.shx,gbcbig.shx,bigfont.shx,chineset.shx
+complex.shx=0
+gbcbig.shx=936
+bigfont.shx=932
+chineset.shx=950

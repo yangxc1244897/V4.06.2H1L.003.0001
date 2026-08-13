@@ -1,0 +1,5 @@
+<Root>
+    <Default Name="DefaultPen" Power="0.44999999" Freq="100" MarkSpeed="500" JumpSpeed="500" DelayLaserOn="30" DelayLaserOff="120" DelayJump="100" DelayMark="100" DelayPolygon="10" DelayDot="10" DelayStep="10" IsSky="false" SkyDist="0" PulseMode="4" IsEnableFPK="false" FPK_VOL0="0" FPK_VOL1="5" FPK_T1="10" FPK_T2="0"/>
+    <Pen Name="111" Power="0.44999999" Freq="100" MarkSpeed="500" JumpSpeed="500" DelayLaserOn="30" DelayLaserOff="120" DelayJump="100" DelayMark="100" DelayPolygon="10" DelayDot="10" DelayStep="10" IsSky="false" SkyDist="0" PulseMode="4" IsEnableFPK="false" FPK_VOL0="0" FPK_VOL1="5" FPK_T1="10" FPK_T2="0"/>
+    <Pen Name="test" Power="0.44999999" Freq="100" MarkSpeed="500" JumpSpeed="500" DelayLaserOn="30" DelayLaserOff="120" DelayJump="100" DelayMark="100" DelayPolygon="10" DelayDot="10" DelayStep="10" IsSky="false" SkyDist="0" PulseMode="4" IsEnableFPK="false" FPK_VOL0="0" FPK_VOL1="5" FPK_T1="10" FPK_T2="0"/>
+</Root>

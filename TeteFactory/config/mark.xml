@@ -1,0 +1,34 @@
+<Mark>
+    <PinIn ID="0" Pin="0" Sign="1" Enable="true" Period="0"/>
+    <PinIn ID="1" Pin="1" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="2" Pin="2" Sign="1" Enable="false" Period="0"/>
+    <PinIn ID="3" Pin="3" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="4" Pin="4" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="5" Pin="5" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="6" Pin="6" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="7" Pin="7" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="8" Pin="8" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="9" Pin="9" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="10" Pin="10" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="11" Pin="11" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="12" Pin="12" Sign="0" Enable="false" Period="0"/>
+    <PinIn ID="13" Pin="13" Sign="1" Enable="true" Period="0"/>
+    <PinIn ID="14" Pin="14" Sign="1" Enable="true" Period="0"/>
+    <PinIn ID="15" Pin="15" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="0" Pin="0" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="1" Pin="1" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="2" Pin="2" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="3" Pin="3" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="4" Pin="4" Sign="0" Enable="true" Period="0"/>
+    <PinOut ID="5" Pin="5" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="6" Pin="6" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="7" Pin="7" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="8" Pin="8" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="9" Pin="9" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="10" Pin="10" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="11" Pin="11" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="12" Pin="12" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="13" Pin="13" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="14" Pin="14" Sign="0" Enable="false" Period="0"/>
+    <PinOut ID="15" Pin="15" Sign="0" Enable="false" Period="0"/>
+</Mark>

@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{1E19D14B-81E1-4951-9478-0CEF46546CF7}</ProjectGuid>
+    <RootNamespace>TeteFactory</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>Dynamic</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin</OutDir>
+    <IncludePath>.\;..\Include;Sources;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <TargetName>TeteFactory</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\bin</OutDir>
+    <IncludePath>$(ProjectDir)Mes;.\;..\Include;Sources;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <TargetName>TeteFactory</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>PCI-Dask.lib</AdditionalDependencies>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WINDOWS;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Midl>
+      <MkTypLibCompatible>false</MkTypLibCompatible>
+      <ValidateAllParameters>true</ValidateAllParameters>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </Midl>
+    <ResourceCompile>
+      <Culture>0x0804</Culture>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="Mes\json\include\CMakeLists.txt" />
+    <Text Include="Mes\json\src\CMakeLists.txt" />
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C2DContentRepeatCheck.h" />
+    <ClInclude Include="C7230IOcomm.h" />
+    <ClInclude Include="ColorLed.h" />
+    <ClInclude Include="DB\DBAccess.h" />
+    <ClInclude Include="DB\DBInstance.h" />
+    <ClInclude Include="DB\DBInterface.h" />
+    <ClInclude Include="DB\DBSQLLite.h" />
+    <ClInclude Include="DB\DBSQLServer.h" />
+    <ClInclude Include="DB\sqlite3\sqlite3.h" />
+    <ClInclude Include="DB\sqlite3\SQLite3Ext.h" />
+    <ClInclude Include="DlgAnchorPointSet.h" />
+    <ClInclude Include="DlgChangePwd.h" />
+    <ClInclude Include="DlgChangeUsage.h" />
+    <ClInclude Include="DlgFactoryPwd.h" />
+    <ClInclude Include="DlgFactorySet.h" />
+    <ClInclude Include="DlgInputStripID.h" />
+    <ClInclude Include="DlgLaserUsage.h" />
+    <ClInclude Include="DlgMapAdjust.h" />
+    <ClInclude Include="DlgMarkPoint.h" />
+    <ClInclude Include="DlgMarkTimesSet.h" />
+    <ClInclude Include="DlgMCCheckWarn.h" />
+    <ClInclude Include="DlgMultiCalib.h" />
+    <ClInclude Include="DlgOptionHardware.h" />
+    <ClInclude Include="DlgRotateCenter.h" />
+    <ClInclude Include="DlgScannerSet.h" />
+    <ClInclude Include="DlgSelectLaserParam.h" />
+    <ClInclude Include="DlgStartup.h" />
+    <ClInclude Include="DlgUserAuthorityChange.h" />
+    <ClInclude Include="DlgUserManager.h" />
+    <ClInclude Include="DlgUserMananger.h" />
+    <ClInclude Include="EncryptPwd.h" />
+    <ClInclude Include="FactoryConfig.h" />
+    <ClInclude Include="FactoryMesComm.h" />
+    <ClInclude Include="FactoryServer.h" />
+    <ClInclude Include="FinsTCP\FinsTcpClient.h" />
+    <ClInclude Include="FinsTCP\NBlockSocketFins.h" />
+    <ClInclude Include="FormHisLog.h" />
+    <ClInclude Include="FormWorkControl.h" />
+    <ClInclude Include="ht_src\soapH.h" />
+    <ClInclude Include="ht_src\soapStub.h" />
+    <ClInclude Include="ht_src\stdsoap2.h" />
+    <ClInclude Include="ICMesComEAPHttpQP.h" />
+    <ClInclude Include="IniFileHander.h" />
+    <ClInclude Include="MapAdjustView.h" />
+    <ClInclude Include="Mes\HttpComHT.h" />
+    <ClInclude Include="Mes\json\include\allocator.h" />
+    <ClInclude Include="Mes\json\include\assertions.h" />
+    <ClInclude Include="Mes\json\include\config.h" />
+    <ClInclude Include="Mes\json\include\forwards.h" />
+    <ClInclude Include="Mes\json\include\json.h" />
+    <ClInclude Include="Mes\json\include\json_features.h" />
+    <ClInclude Include="Mes\json\include\reader.h" />
+    <ClInclude Include="Mes\json\include\value.h" />
+    <ClInclude Include="Mes\json\include\version.h" />
+    <ClInclude Include="Mes\json\include\writer.h" />
+    <ClInclude Include="Mes\json\src\json_tool.h" />
+    <ClInclude Include="MyButton.h" />
+    <ClInclude Include="MyFtp.h" />
+    <ClInclude Include="MyNSocketServer.h" />
+    <ClInclude Include="MySoap.h" />
+    <ClInclude Include="MyTabCtrl.h" />
+    <ClInclude Include="NBlockSocket.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="Scan2DSignal.h" />
+    <ClInclude Include="SettingChangeDetected.h" />
+    <ClInclude Include="ShowTip.h" />
+    <ClInclude Include="SocketCom.h" />
+    <ClInclude Include="SocketComIO.h" />
+    <ClInclude Include="Sources\ActionFactory.h" />
+    <ClInclude Include="Sources\Common\LogServer.h" />
+    <ClInclude Include="Sources\Configure.h" />
+    <ClInclude Include="Sources\CoordTransform.h" />
+    <ClInclude Include="Sources\DataProfile.h" />
+    <ClInclude Include="Sources\LaserModule.h" />
+    <ClInclude Include="Sources\LoadGraphEngine.h" />
+    <ClInclude Include="Sources\LoadMarkCalib.h" />
+    <ClInclude Include="Sources\LoadMarkDevice.h" />
+    <ClInclude Include="Sources\LoadMarkDriver.h" />
+    <ClInclude Include="Sources\LoadMarkEngine.h" />
+    <ClInclude Include="Sources\MarkAction.h" />
+    <ClInclude Include="Sources\MarkPlatform.h" />
+    <ClInclude Include="Sources\MarkThread.h" />
+    <ClInclude Include="Sources\PluginManager.h" />
+    <ClInclude Include="Sources\RemoteServer.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_attributes.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_codes.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_creationadapter.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_creationinterface.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_dxf.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_entities.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_exception.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_extrusion.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_global.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_writer.h" />
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_writer_ascii.h" />
+    <ClInclude Include="Sources\ThirdParty\TinyXML\tinystr.h" />
+    <ClInclude Include="Sources\ThirdParty\TinyXML\tinyxml.h" />
+    <ClInclude Include="Sources\TimeMeter.h" />
+    <ClInclude Include="Sources\tinyxml2.h" />
+    <ClInclude Include="StartMarkSingal.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="StdioFileCodePage.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="TeteFactory.h" />
+    <ClInclude Include="TeteFactoryDlg.h" />
+    <ClInclude Include="ThirdParty\InputSignal.h" />
+    <ClInclude Include="ThirdParty\ReportCtrl.h" />
+    <ClInclude Include="UserMananger.h" />
+    <ClInclude Include="UserMngDefine.h" />
+    <ClInclude Include="ViewAllBin.h" />
+    <ClInclude Include="ViewFactory.h" />
+    <ClInclude Include="ViewSingleBin.h" />
+    <ClInclude Include="Wafer\ColorLed.h" />
+    <ClInclude Include="Wafer\dxffile.h" />
+    <ClInclude Include="Wafer\dxfMatch.h" />
+    <ClInclude Include="Wafer\pltfile.h" />
+    <ClInclude Include="Wafer\tlString.h" />
+    <ClInclude Include="Wafer\WaferEngine.h" />
+    <ClInclude Include="Wafer\WaferFile.h" />
+    <ClInclude Include="Wafer\WaferGraphDoc.h" />
+    <ClInclude Include="Wafer\WaferLayer.h" />
+    <ClInclude Include="Wafer\WaferMapDoc.h" />
+    <ClInclude Include="Wafer\WaferNode.h" />
+    <ClInclude Include="Wafer\WaferUserMsg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C2DContentRepeatCheck.cpp" />
+    <ClCompile Include="C7230IOcomm.cpp" />
+    <ClCompile Include="ColorLed.cpp" />
+    <ClCompile Include="DB\DBAccess.cpp" />
+    <ClCompile Include="DB\DBInstance.cpp" />
+    <ClCompile Include="DB\DBSQLLite.cpp" />
+    <ClCompile Include="DB\DBSQLServer.cpp" />
+    <ClCompile Include="DB\sqlite3\SQLite3Ext.cpp" />
+    <ClCompile Include="DlgAnchorPointSet.cpp" />
+    <ClCompile Include="DlgChangePwd.cpp" />
+    <ClCompile Include="DlgChangeUsage.cpp" />
+    <ClCompile Include="DlgFactoryPwd.cpp" />
+    <ClCompile Include="DlgFactorySet.cpp" />
+    <ClCompile Include="DlgInputStripID.cpp" />
+    <ClCompile Include="DlgLaserUsage.cpp" />
+    <ClCompile Include="DlgMapAdjust.cpp" />
+    <ClCompile Include="DlgMarkPoint.cpp" />
+    <ClCompile Include="DlgMarkTimesSet.cpp" />
+    <ClCompile Include="DlgMCCheckWarn.cpp" />
+    <ClCompile Include="DlgMultiCalib.cpp" />
+    <ClCompile Include="DlgOptionHardware.cpp" />
+    <ClCompile Include="DlgRotateCenter.cpp" />
+    <ClCompile Include="DlgScannerSet.cpp" />
+    <ClCompile Include="DlgSelectLaserParam.cpp" />
+    <ClCompile Include="DlgStartup.cpp" />
+    <ClCompile Include="DlgUserMananger.cpp" />
+    <ClCompile Include="EncryptPwd.cpp" />
+    <ClCompile Include="FactoryConfig.cpp" />
+    <ClCompile Include="FactoryMesComm.cpp" />
+    <ClCompile Include="FactoryServer.cpp" />
+    <ClCompile Include="FinsTCP\FinsTcpClient.cpp" />
+    <ClCompile Include="FinsTCP\NBlockSocketFins.cpp" />
+    <ClCompile Include="FormHisLog.cpp" />
+    <ClCompile Include="FormWorkControl.cpp" />
+    <ClCompile Include="ht_src\soapC.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ht_src\soapClient.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ht_src\stdsoap2.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="ICMesComEAPHttpQP.cpp" />
+    <ClCompile Include="IniFileHander.cpp" />
+    <ClCompile Include="MapAdjustView.cpp" />
+    <ClCompile Include="Mes\HttpComHT.cpp" />
+    <ClCompile Include="Mes\json\src\json_reader.cpp" />
+    <ClCompile Include="Mes\json\src\json_value.cpp" />
+    <ClCompile Include="Mes\json\src\json_writer.cpp" />
+    <ClCompile Include="MyButton.cpp" />
+    <ClCompile Include="MyFtp.cpp" />
+    <ClCompile Include="MyNSocketServer.cpp" />
+    <ClCompile Include="MySoap.cpp" />
+    <ClCompile Include="MyTabCtrl.cpp" />
+    <ClCompile Include="NBlockSocket.cpp" />
+    <ClCompile Include="Scan2DSignal.cpp" />
+    <ClCompile Include="SettingChangeDetected.cpp" />
+    <ClCompile Include="ShowTip.cpp" />
+    <ClCompile Include="SocketCom.cpp" />
+    <ClCompile Include="SocketComIO.cpp" />
+    <ClCompile Include="Sources\ActionFactory.cpp" />
+    <ClCompile Include="Sources\Common\LogServer.cpp" />
+    <ClCompile Include="Sources\Configure.cpp" />
+    <ClCompile Include="Sources\CoordTransform.cpp" />
+    <ClCompile Include="Sources\DataProfile.cpp" />
+    <ClCompile Include="Sources\LaserModule.cpp" />
+    <ClCompile Include="Sources\LoadGraphEngine.cpp" />
+    <ClCompile Include="Sources\LoadMarkCalib.cpp" />
+    <ClCompile Include="Sources\LoadMarkDevice.cpp" />
+    <ClCompile Include="Sources\LoadMarkDriver.cpp" />
+    <ClCompile Include="Sources\LoadMarkEngine.cpp" />
+    <ClCompile Include="Sources\MarkAction.cpp" />
+    <ClCompile Include="Sources\MarkPlatform.cpp" />
+    <ClCompile Include="Sources\MarkThread.cpp" />
+    <ClCompile Include="Sources\PluginManager.cpp" />
+    <ClCompile Include="Sources\RemoteServer.cpp" />
+    <ClCompile Include="Sources\ThirdParty\dxflib\dl_dxf.cpp" />
+    <ClCompile Include="Sources\ThirdParty\dxflib\dl_writer_ascii.cpp" />
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinystr.cpp" />
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxml.cpp" />
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxmlerror.cpp" />
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxmlparser.cpp" />
+    <ClCompile Include="Sources\TimeMeter.cpp" />
+    <ClCompile Include="Sources\tinyxml2.cpp" />
+    <ClCompile Include="StartMarkSingal.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StdioFileCodePage.cpp" />
+    <ClCompile Include="TeteFactory.cpp" />
+    <ClCompile Include="TeteFactoryDlg.cpp" />
+    <ClCompile Include="ThirdParty\InputSignal.cpp" />
+    <ClCompile Include="ThirdParty\ReportCtrl.cpp" />
+    <ClCompile Include="UserMananger.cpp" />
+    <ClCompile Include="ViewAllBin.cpp" />
+    <ClCompile Include="ViewFactory.cpp" />
+    <ClCompile Include="ViewSingleBin.cpp" />
+    <ClCompile Include="Wafer\ColorLed.cpp" />
+    <ClCompile Include="Wafer\dxffile.cpp" />
+    <ClCompile Include="Wafer\pltfile.cpp" />
+    <ClCompile Include="Wafer\WaferEngine.cpp" />
+    <ClCompile Include="Wafer\WaferFile.cpp" />
+    <ClCompile Include="Wafer\WaferGraphDoc.cpp" />
+    <ClCompile Include="Wafer\WaferLayer.cpp" />
+    <ClCompile Include="Wafer\WaferMapDoc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeteFactory.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DB\msado60_Backcompat.tlb" />
+    <None Include="ht_src\Service1Soap.nsmap" />
+    <None Include="ht_src\WebServiceOf2DSoap.nsmap" />
+    <None Include="ht_src\WebServiceOfTrackInSoap.nsmap" />
+    <None Include="Mes\json\src\json_valueiterator.inl" />
+    <None Include="res\TeteFactory.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bitmap2.bmp" />
+    <Image Include="res\bmp00002.bmp" />
+    <Image Include="res\factory-exit.ico" />
+    <Image Include="res\factory-mark.ico" />
+    <Image Include="res\factory-set.ico" />
+    <Image Include="res\factory-startlot.ico" />
+    <Image Include="res\factory-stop.ico" />
+    <Image Include="res\factory-stopmark.ico" />
+    <Image Include="res\main.bmp" />
+    <Image Include="res\TeteFactory.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="TeteFactory.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

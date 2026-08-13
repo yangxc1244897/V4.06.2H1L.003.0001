@@ -1,0 +1,798 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Wafer">
+      <UniqueIdentifier>{23a7f802-5215-4e53-b0a8-9b34d89edc9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources">
+      <UniqueIdentifier>{1a9660c1-2760-4638-af64-5ddceb1830bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Common">
+      <UniqueIdentifier>{84a99f96-678c-4d1e-980d-8d5f2e1a65f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\ThirdParty">
+      <UniqueIdentifier>{5fa13c07-4655-4064-acd6-9662f22baf1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\ThirdParty\dxflib">
+      <UniqueIdentifier>{c54cd183-b048-4a1a-9084-a247bedde33f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\ThirdParty\TinyXml">
+      <UniqueIdentifier>{507769dd-a2c2-47af-8ce7-e32e7bcd7ab6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ht_src">
+      <UniqueIdentifier>{87a46dd7-c5ec-4680-8e88-df60fc91d2c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{030e0528-5480-42d2-afb9-2555f6e28e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB\sqlite3">
+      <UniqueIdentifier>{4c26d77e-a87e-4b38-b6fa-bd4e2a0b75db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{2801432a-c452-44be-a265-288929bcaaca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mes">
+      <UniqueIdentifier>{dd52e08c-d08a-4487-82f6-ad63b3a11cac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mes\Json">
+      <UniqueIdentifier>{cb01fde0-8ad5-4a4c-886b-6d124c2a2766}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mes\Json\include">
+      <UniqueIdentifier>{57cc4587-7f23-4b69-9bc5-06fdc8942bec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mes\Json\src">
+      <UniqueIdentifier>{c397a8b3-79dd-47e7-9c87-7a6d2d7bc4fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FinsTCP">
+      <UniqueIdentifier>{1ba7f17b-2b86-47cf-abbe-792c07a8310b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+    <Text Include="Mes\json\include\CMakeLists.txt">
+      <Filter>Mes\Json\include</Filter>
+    </Text>
+    <Text Include="Mes\json\src\CMakeLists.txt">
+      <Filter>Mes\Json\src</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TeteFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TeteFactoryDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgStartup.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFactorySet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryConfig.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ShowTip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgFactoryPwd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorLed.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyFtp.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Common\LogServer.h">
+      <Filter>Sources\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_attributes.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_codes.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_creationadapter.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_creationinterface.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_dxf.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_entities.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_exception.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_extrusion.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_global.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_writer.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\dxflib\dl_writer_ascii.h">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ActionFactory.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\Configure.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\CoordTransform.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\DataProfile.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LaserModule.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LoadGraphEngine.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LoadMarkCalib.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LoadMarkDevice.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LoadMarkDriver.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\LoadMarkEngine.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\MarkAction.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\MarkPlatform.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\MarkThread.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\PluginManager.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\RemoteServer.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\TimeMeter.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\tinyxml2.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\ColorLed.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\dxffile.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\dxfMatch.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\pltfile.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\tlString.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferEngine.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferFile.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferGraphDoc.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferLayer.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferMapDoc.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferNode.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Wafer\WaferUserMsg.h">
+      <Filter>Wafer</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\TinyXML\tinystr.h">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="Sources\ThirdParty\TinyXML\tinyxml.h">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClInclude>
+    <ClInclude Include="FactoryMesComm.h">
+      <Filter>源文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FormWorkControl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FormHisLog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMapAdjust.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MapAdjustView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyTabCtrl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyButton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMCCheckWarn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMarkPoint.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMarkTimesSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewAllBin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ViewSingleBin.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgSelectLaserParam.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgChangePwd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgUserManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="EncryptPwd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgUserAuthorityChange.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgLaserUsage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgChangeUsage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgMultiCalib.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgOptionHardware.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgInputStripID.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgScannerSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MySoap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ht_src\soapH.h">
+      <Filter>ht_src</Filter>
+    </ClInclude>
+    <ClInclude Include="ht_src\soapStub.h">
+      <Filter>ht_src</Filter>
+    </ClInclude>
+    <ClInclude Include="ht_src\stdsoap2.h">
+      <Filter>ht_src</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\InputSignal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgAnchorPointSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="C7230IOcomm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SocketComIO.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Scan2DSignal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StartMarkSingal.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBAccess.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBInstance.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBInterface.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBSQLLite.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\DBSQLServer.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\sqlite3\sqlite3.h">
+      <Filter>DB\sqlite3</Filter>
+    </ClInclude>
+    <ClInclude Include="DB\sqlite3\SQLite3Ext.h">
+      <Filter>DB\sqlite3</Filter>
+    </ClInclude>
+    <ClInclude Include="C2DContentRepeatCheck.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UserMananger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="UserMngDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgUserMananger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\ReportCtrl.h">
+      <Filter>ThirdParty</Filter>
+    </ClInclude>
+    <ClInclude Include="IniFileHander.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SettingChangeDetected.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="NBlockSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MyNSocketServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="StdioFileCodePage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="DlgRotateCenter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\HttpComHT.h">
+      <Filter>Mes</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\allocator.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\assertions.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\config.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\forwards.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\json.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\json_features.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\reader.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\value.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\version.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\include\writer.h">
+      <Filter>Mes\Json\include</Filter>
+    </ClInclude>
+    <ClInclude Include="Mes\json\src\json_tool.h">
+      <Filter>Mes\Json\src</Filter>
+    </ClInclude>
+    <ClInclude Include="FinsTCP\FinsTcpClient.h">
+      <Filter>FinsTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="FinsTCP\NBlockSocketFins.h">
+      <Filter>FinsTCP</Filter>
+    </ClInclude>
+    <ClInclude Include="ICMesComEAPHttpQP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TeteFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TeteFactoryDlg.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgStartup.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFactoryPwd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgFactorySet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ShowTip.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryConfig.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyFtp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorLed.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Common\LogServer.cpp">
+      <Filter>Sources\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\dxflib\dl_dxf.cpp">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\dxflib\dl_writer_ascii.cpp">
+      <Filter>Sources\ThirdParty\dxflib</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ActionFactory.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\Configure.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\CoordTransform.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\DataProfile.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LaserModule.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LoadGraphEngine.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LoadMarkCalib.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LoadMarkDevice.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LoadMarkDriver.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\LoadMarkEngine.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\MarkAction.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\MarkPlatform.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\MarkThread.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\PluginManager.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\RemoteServer.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\TimeMeter.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\tinyxml2.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\ColorLed.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\dxffile.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\pltfile.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\WaferEngine.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\WaferFile.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\WaferGraphDoc.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\WaferLayer.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Wafer\WaferMapDoc.cpp">
+      <Filter>Wafer</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinystr.cpp">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxml.cpp">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxmlerror.cpp">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="Sources\ThirdParty\TinyXML\tinyxmlparser.cpp">
+      <Filter>Sources\ThirdParty\TinyXml</Filter>
+    </ClCompile>
+    <ClCompile Include="FactoryMesComm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FormWorkControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FormHisLog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMapAdjust.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MapAdjustView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyTabCtrl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMCCheckWarn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMarkPoint.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMarkTimesSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewSingleBin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ViewAllBin.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgSelectLaserParam.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangePwd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="EncryptPwd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgLaserUsage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgChangeUsage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgMultiCalib.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgOptionHardware.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgInputStripID.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgScannerSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MySoap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ht_src\soapC.cpp">
+      <Filter>ht_src</Filter>
+    </ClCompile>
+    <ClCompile Include="ht_src\soapClient.cpp">
+      <Filter>ht_src</Filter>
+    </ClCompile>
+    <ClCompile Include="ht_src\stdsoap2.cpp">
+      <Filter>ht_src</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\InputSignal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgAnchorPointSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="C7230IOcomm.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketCom.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SocketComIO.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Scan2DSignal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StartMarkSingal.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBAccess.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBInstance.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBSQLLite.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\DBSQLServer.cpp">
+      <Filter>DB</Filter>
+    </ClCompile>
+    <ClCompile Include="DB\sqlite3\SQLite3Ext.cpp">
+      <Filter>DB\sqlite3</Filter>
+    </ClCompile>
+    <ClCompile Include="C2DContentRepeatCheck.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="UserMananger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgUserMananger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\ReportCtrl.cpp">
+      <Filter>ThirdParty</Filter>
+    </ClCompile>
+    <ClCompile Include="IniFileHander.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="SettingChangeDetected.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="NBlockSocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyNSocketServer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="StdioFileCodePage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DlgRotateCenter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Mes\HttpComHT.cpp">
+      <Filter>Mes</Filter>
+    </ClCompile>
+    <ClCompile Include="Mes\json\src\json_reader.cpp">
+      <Filter>Mes\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Mes\json\src\json_value.cpp">
+      <Filter>Mes\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="Mes\json\src\json_writer.cpp">
+      <Filter>Mes\Json\src</Filter>
+    </ClCompile>
+    <ClCompile Include="FinsTCP\FinsTcpClient.cpp">
+      <Filter>FinsTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="FinsTCP\NBlockSocketFins.cpp">
+      <Filter>FinsTCP</Filter>
+    </ClCompile>
+    <ClCompile Include="ICMesComEAPHttpQP.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="TeteFactory.rc">
+      <Filter>资源文件</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\TeteFactory.rc2">
+      <Filter>资源文件</Filter>
+    </None>
+    <None Include="ht_src\Service1Soap.nsmap">
+      <Filter>ht_src</Filter>
+    </None>
+    <None Include="DB\msado60_Backcompat.tlb">
+      <Filter>DB</Filter>
+    </None>
+    <None Include="ht_src\WebServiceOf2DSoap.nsmap">
+      <Filter>ht_src</Filter>
+    </None>
+    <None Include="ht_src\WebServiceOfTrackInSoap.nsmap">
+      <Filter>ht_src</Filter>
+    </None>
+    <None Include="Mes\json\src\json_valueiterator.inl">
+      <Filter>Mes\Json\src</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\TeteFactory.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-stopmark.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-stop.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-mark.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-startlot.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-set.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\factory-exit.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bmp00002.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\main.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="res\bitmap2.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

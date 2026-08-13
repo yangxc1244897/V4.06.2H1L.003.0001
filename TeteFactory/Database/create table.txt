@@ -1,0 +1,19 @@
+create table usergroup(
+id integer primary key autoincrement not null,
+groupname TEXT UNIQUE not null,
+rights TEXT not null,
+details TEXT);
+
+insert into usergroup(groupname, rights, details) values("administrator", "1,1,1,1,1,1", "管理员账号，可以操作所有");
+insert into usergroup(groupname, rights, details) values("user", "1,1,1,1,1,0", "技术人员账号，可以操作与打标相关的部分");
+insert into usergroup(groupname, rights, details) values("guest", "1,1,0,0,0,0", "访客账号");
+
+create table user(
+id integer primary key autoincrement not null,
+username text UNIQUE not null,
+password char(32),
+groupid int not null);
+
+insert into user(username, password, groupid) values("admin", "admin", 1);
+insert into user(username, password, groupid) values("user", "123", 2);
+insert into user(username, password, groupid) values("guest", "", 3);
