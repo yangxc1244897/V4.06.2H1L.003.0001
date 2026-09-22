@@ -441,6 +441,15 @@
     <ClInclude Include="ICMesComEAPHttpQP.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="IThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CsvFile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LogInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TeteFactory.cpp">
@@ -735,6 +744,15 @@
       <Filter>FinsTCP</Filter>
     </ClCompile>
     <ClCompile Include="ICMesComEAPHttpQP.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="IThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="csvfile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogInfo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

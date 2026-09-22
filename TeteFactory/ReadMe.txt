@@ -386,3 +386,18 @@ V4.06.2H1L.NJHT.0086
 V4.06.2H1L.NJHT.0087
 2026-08-06 黄红华
 1. 优化系统设置页面中，选择文件夹对话框的功能-浏览网络路径时，速度更快
+
+V4.06.2H1L.NJHT.0088
+2026-08-18 杨新城
+1.添加远程模式下使post 协议去获取网页上数据，重置时候，请求结批完成信号
+2. 添加远程模式下使用http post协议获取设备lotid 和设备id 去获取阵列数据
+2026-08-20 杨新城
+1.优化内存泄漏问题
+CMySoap 模块 destroy   soap_end()
+CWaferMapView::doSelectObject(double px, double py) 
+//CWaferGroup *pTmpWaferGroup = new CWaferGroup;屏蔽
+2026-09-20 杨新城
+
+V4.06.2H1L.NJHT.0090
+Add by hhhuang 20260818: 每次扫描StripID后，也要检查对应的工单的过站信息
+2026-09-22 杨新城

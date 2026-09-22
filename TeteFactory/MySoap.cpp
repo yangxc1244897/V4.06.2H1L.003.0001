@@ -154,8 +154,8 @@ CMySoap::CMySoap(const CString& sUrl)
 CMySoap::~CMySoap()
 {
 	/// 关闭SOAP
-	soap_destroy(&m_oSoap);
-	soap_end(&m_oSoap);
+//	soap_destroy(&m_oSoap);
+//	soap_end(&m_oSoap);
 	soap_done(&m_oSoap);
 }
 
@@ -179,10 +179,15 @@ CString CMySoap::GetLotInfo(const CString& lotid)
 	// 操作成功
 	if (SOAP_OK == nResult && (NULL == getLotInfoResponseObject.Status) && (NULL != getLotInfoResponseObject.OutputDataList))
 	{
-		return getLotInfoResponseObject.OutputDataList;
+		CString strRet(getLotInfoResponseObject.OutputDataList);
+			soap_destroy(&m_oSoap);
+			soap_end(&m_oSoap);
+		return strRet;
 	}
 	
 	m_sErrMsg = getLotInfoResponseObject.Status;
+	soap_destroy(&m_oSoap);
+	soap_end(&m_oSoap);
 	return _T("");
 }
 
@@ -201,6 +206,8 @@ BOOL CMySoap::IsLotIDMatchStripID(const CString& stripid, CString& lotid)
 	// 操作成功
 	if (SOAP_OK != nResult)
 	{
+		soap_destroy(&m_oSoap);
+		soap_end(&m_oSoap);
 		m_sErrMsg = _T("通讯失败！");
 		return FALSE;
 	}
@@ -209,9 +216,13 @@ BOOL CMySoap::IsLotIDMatchStripID(const CString& stripid, CString& lotid)
 	sResult = (*getLotInfoResponseObject.CheckEQPStripIdIsMatchLotIdResult).Item2;
 	if (sResult.MakeLower() == _T("success"))
 	{
+		soap_destroy(&m_oSoap);
+		soap_end(&m_oSoap);	
 		lotid = sLotID;
 		return TRUE;
 	}
+	soap_destroy(&m_oSoap);
+	soap_end(&m_oSoap);
 	m_sErrMsg = sLotID;  // 失败信息
 	return FALSE;
 }
@@ -232,16 +243,21 @@ BOOL CMySoap::IsEquipmentTrackInLotId(const CString& sEquipmentId, const CString
 	// 操作成功
 	if (SOAP_OK != nResult)
 	{
+		soap_destroy(&m_oSoap);
+		soap_end(&m_oSoap);
 		m_sErrMsg = _T("通讯失败！");
 		return FALSE;
 	}
 
 	if (getTrackInLotIdResponseObject.IsEquipmentTrackInLotIdResult)
 	{
+		soap_destroy(&m_oSoap);
+		soap_end(&m_oSoap);
 		return TRUE;
 	}
-	
 	m_sErrMsg = getTrackInLotIdResponseObject.status;
+	soap_destroy(&m_oSoap);
+	soap_end(&m_oSoap);
 	return FALSE;
 }
 

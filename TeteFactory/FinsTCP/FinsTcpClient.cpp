@@ -104,10 +104,41 @@ bool CFinsTcpClient::Handshake()
 		return false;
 	}
 
-	if ((unsigned char)mRecvBufTemp[0] == 0x46) {
+	// 校验FINS帧头 "FINS"
+	if ((unsigned char)mRecvBufTemp[0] != 0x46 ||
+		(unsigned char)mRecvBufTemp[1] != 0x49 ||
+		(unsigned char)mRecvBufTemp[2] != 0x4E ||
+		(unsigned char)mRecvBufTemp[3] != 0x53) {
+		return false;
+	}
+
+	// 错误码必须为0
+	if ((unsigned char)mRecvBufTemp[12] != 0x00 ||
+		(unsigned char)mRecvBufTemp[13] != 0x00 ||
+		(unsigned char)mRecvBufTemp[14] != 0x00 ||
+		(unsigned char)mRecvBufTemp[15] != 0x00) {
+		return false;
+	}
+
+	unsigned char cmdH = (unsigned char)mRecvBufTemp[8];
+	unsigned char cmdL = (unsigned char)mRecvBufTemp[9];
+
+	if (cmdH == 0x00 && cmdL == 0x01)
+	{
+		// 标准握手回复（命令0x0001，24字节）：
+		// FINS(4) + 长度(4) + 命令(4) + 错误码(4) + 客户端节点(4) + PLC节点(4)
+		// 偏移19为客户端节点最后一字节，即本机PC节点号 -> 作为SA1
 		mSA1 = mRecvBufTemp[19];
 		return true;
 	}
+	else if (cmdH == 0x00 && cmdL == 0x00)
+	{
+		// 简化握手回复（命令0x0000，20字节，与请求格式一致）：
+		// FINS(4) + 长度(4) + 命令(4) + 错误码(4) + 节点(4)
+		mSA1 = mRecvBufTemp[19];
+		return true;
+	}
+
 	return false;
 }
 

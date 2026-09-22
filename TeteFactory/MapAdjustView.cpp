@@ -1359,7 +1359,7 @@ void CWaferMapView::doSelectObject(double px, double py)
     FField_t field;
 	
 	size_t nGroupSize = m_pTheMapDoc->vWaferGroups.size();
-	CWaferGroup *pTmpWaferGroup = new CWaferGroup;
+	CWaferGroup* pTmpWaferGroup = NULL;// new CWaferGroup;
 	if (nGroupSize < 1)
 	{
 		m_iDrawMouseFlag = 0x0000;

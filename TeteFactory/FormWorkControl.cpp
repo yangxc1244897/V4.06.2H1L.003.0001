@@ -22,7 +22,7 @@
 #include "ICMesComEAPHttpQP.h"
 #define SCANSIGNAL_CHECK_TIMER 7
 #define ENABLE_SCAN_THREAD
-
+#include "LogInfo.h"
 
 //#define DEBUG_IO
 
@@ -160,6 +160,9 @@ BEGIN_MESSAGE_MAP(CFormWorkControl, CDialogEx)
 	ON_BN_CLICKED(IDC_CHECK_FIRST_PRINT, &CFormWorkControl::OnBnClickedCheckFirstPrint)
 	ON_BN_CLICKED(IDC_BUTTON1, &CFormWorkControl::OnBnClickedButton1)
 	ON_LBN_SELCHANGE(IDC_LIST_LASER_PARAM, &CFormWorkControl::OnLbnSelchangeListLaserParam)
+	ON_MESSAGE(WM_USER_AUTO_LOT, &CFormWorkControl::OnAutoLotInfo)
+	ON_MESSAGE(WM_USER_AUTO_ENABLECONTROL,&CFormWorkControl::OnEnableWindowControl)
+	
 END_MESSAGE_MAP()
 
 
@@ -319,7 +322,7 @@ void CFormWorkControl::OnSize(UINT nType, int cx, int cy)
 BOOL CFormWorkControl::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
-
+	m_strCurlotId.Empty();
 	// TODO:  在此添加额外的初始化
 #ifdef DEBUG_IO
 	GetDlgItem(IDC_EDIT_IO)->ShowWindow(TRUE);
@@ -516,7 +519,10 @@ BOOL CFormWorkControl::OnInitDialog()
 	}
 
 
-
+	if (!m_threadRemoteInfo.IsRun())
+	{
+		m_threadRemoteInfo.Run(RemoteLotInfomationThread, this);
+	}
 	m_markType = g_sMTUnit;
 	m_bInit = TRUE;
 
@@ -1188,7 +1194,17 @@ void CFormWorkControl::OnBnClickedButtonReset()
 	// TODO: 在此添加控件通知处理程序代码
 	if (!RightConfirmBox(USER_O_RESET_CONTENT))
 		return;
-	
+	if (CheckMesInfo())
+	{
+		ResetMesMapping();
+		PrintMessage(emMsgType_Normal, _T("MES信息检查通过!"));
+	}
+	else
+	{
+
+		PrintMessage(emMsgType_Error, _T("MES信息检查失败!"));
+	}
+	PrintMessage(emMsgType_Normal, _T("重置完成!"));
 	if (IsMarking())
 	{
 		AfxMessageBox(_T("正在标记中，不能重置！"));
@@ -1198,21 +1214,9 @@ void CFormWorkControl::OnBnClickedButtonReset()
 	if (IDYES != MessageBox(_T("确认是否重置！"), _T("提示"), MB_YESNO | MB_DEFBUTTON2))
 		return;
 
-	if (CheckMesInfo())
-	{
-		m_nMapOKCount = 0;
-		m_nMapNGCount = 0;
-		PrintMessage(emMsgType_Normal, _T("MES信息检查通过!"));
-	}
-	else
-	{
-
-		PrintMessage(emMsgType_Error, _T("MES信息检查失败!"));
-	}
-	
 	// 状态清空
 	ResetStatus();
-	
+
 	// 取消JOB
 	OnBnClickedButtonCanceljob();
 	GetDlgItem(IDC_BUTTON_LOAD_JOB)->EnableWindow(FALSE);
@@ -1250,9 +1254,8 @@ void CFormWorkControl::OnBnClickedButtonReset()
 		GetDlgItem(IDC_EDIT_MARKSTAMP)->EnableWindow();
 		GetDlgItem(IDC_EDIT_MARKSTAMP)->SetFocus();
 	}
-	
-	PrintMessage(emMsgType_Normal, _T("重置完成!"));
-	
+	//结批的时候重置 信号， 开始查询工单
+	m_bQueryLotInfo = FALSE;
 	// 信号复位
 	UpdateIOStatus(UISIGNAL_MAP);
 	UpdateIOStatus(UISIGNAL_2D);
@@ -1380,7 +1383,7 @@ void CFormWorkControl::OnBnClickedButtonStoplot()
 		goto TestError;
 	}
 
-	
+
 	if (IsMarking())
 	{
 		AfxMessageBox(_T("正在标记中，不能结批！"));
@@ -1468,6 +1471,10 @@ void CFormWorkControl::OnBnClickedButtonLoadJob()
 
 void CFormWorkControl::OnBnClickedButtonCanceljob()
 {
+
+	
+
+		
 	// TODO: 在此添加控件通知处理程序代
 	if (!RightConfirmBox(USER_O_STOP_WORK))
 		return;
@@ -1545,158 +1552,162 @@ void CFormWorkControl::OnOK()
 	}
 	else if (GetFocus() == GetDlgItem(IDC_EDIT_LOTID))
 	{
-		CString s, sErrMsg;
-		// 清空消息框
-		CHttpComHT com(this);
-		float fness;
-		m_pMainDlg->ClearMessage();
-
-		// 清空激光参数显示
-		ClearLaserParamShow();
 
 		CString sOperID, sLotID;
 		GetDlgItemText(IDC_EDIT_LOTID, sLotID);
-		//GetDlgItemText(IDC_EDIT_OPERID, sOperID);
-		if (sLotID.IsEmpty())
-		{
-			AfxMessageBox(_T("Lot ID为空！"));
-			GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
-			return;
-		}
-		/*if (sOperID.IsEmpty())
-		{
-			AfxMessageBox(_T("Oper ID为空！"));
-			GetDlgItem(IDC_EDIT_OPERID)->SetFocus();
-			return;
-		}*/
-
-	    if (!IsIgnoreCCDCheckAndSwitchVisionProcess())
-		{
-			if (m_pConfig->m_bCheckVisualSystem)
-			{
-				if (!CheckCCDStatus()) {         //CCD未连接不能扫码
-					s.Format(_T("视觉系统（CCD）未连接！"));
-					PrintMessage(emMsgType_Error, s);
-					goto TestError;
-				}
-			}
-		}
-
-		//扫入lotID检测与由小写转化为大写
-		if (!GetAndCheckLotID(sLotID)) {
-			goto TestError;
-		}
-
-		GetDlgItem(IDC_EDIT_LOTID)->SetWindowText(sLotID);
-		// 判断扫描的LotID是不是已经在本机上扫描过
-		int nLotIDTimes = VerifyRepeatLotID(sLotID);
+		LoadLotInfo(sLotID,FALSE);
 		
-		GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(FALSE);
-		GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(FALSE);
-		GetDlgItem(IDC_EDIT_OPERID)->UpdateWindow();  // 及时更新控件
-		GetDlgItem(IDC_EDIT_LOTID)->UpdateWindow();   // 及时更新控件
+	//	CString s, sErrMsg;
+	//	// 清空消息框
+	//	CHttpComHT com(this);
+	//	float fness;
+	//	m_pMainDlg->ClearMessage();
 
-		// 根据LotID创建一个新的Log文件
-		StartLog(sLotID);  
+	//	// 清空激光参数显示
+	//	ClearLaserParamShow();
+	//	//GetDlgItemText(IDC_EDIT_OPERID, sOperID);
+	//	if (sLotID.IsEmpty())
+	//	{
+	//		AfxMessageBox(_T("Lot ID为空！"));
+	//		GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
+	//		return;
+	//	}
+	//	/*if (sOperID.IsEmpty())
+	//	{
+	//		AfxMessageBox(_T("Oper ID为空！"));
+	//		GetDlgItem(IDC_EDIT_OPERID)->SetFocus();
+	//		return;
+	//	}*/
 
-		s.Format(_T("%s"), sLotID);
-		PrintMessage(emMsgType_Title, s);
-		//s.Format(_T("扫入Lot No:%s。Oper ID:%s"), sLotID, sOperID);
-		s.Format(_T("扫入LotID：%s"), sLotID);
-		PrintMessage(emMsgType_Normal, s);
+	//    if (!IsIgnoreCCDCheckAndSwitchVisionProcess())
+	//	{
+	//		if (m_pConfig->m_bCheckVisualSystem)
+	//		{
+	//			if (!CheckCCDStatus()) {         //CCD未连接不能扫码
+	//				s.Format(_T("视觉系统（CCD）未连接！"));
+	//				PrintMessage(emMsgType_Error, s);
+	//				goto TestError;
+	//			}
+	//		}
+	//	}
 
-		// 加载印章
-		if(!LoadSeal(sLotID))
-			goto TestError;
+	//	//扫入lotID检测与由小写转化为大写
+	//	if (!GetAndCheckLotID(sLotID)) {
+	//		goto TestError;
+	//	}
 
-		// 发送制程给PLC软件
-		if (!SwitchVisionProcess())
-		{
-			//PrintMessage(emMsgType_Error, _T("制程切换失败！"));
-			goto TestError;
-		}
-		//写入欧姆龙PLC晶圆厚度
-		if (m_pConfig->m_bCheckFinsPLC) {
+	//	GetDlgItem(IDC_EDIT_LOTID)->SetWindowText(sLotID);
+	//	// 判断扫描的LotID是不是已经在本机上扫描过
+	//	int nLotIDTimes = VerifyRepeatLotID(sLotID);
+	//	
+	//	GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(FALSE);
+	//	GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(FALSE);
+	//	GetDlgItem(IDC_EDIT_OPERID)->UpdateWindow();  // 及时更新控件
+	//	GetDlgItem(IDC_EDIT_LOTID)->UpdateWindow();   // 及时更新控件
 
-			if (com.GetWaferThickness(sLotID))
-			{
-				fness = com.ReturnThickNess();
-				CString str;
-				str.Format(L"成功获取塑封体厚度：%f", fness);
-				PrintMessage(emMsgType_Normal, str);
-				if (FINSCLIENT->ConnServer(m_pConfig->m_sFinsIP, m_pConfig->m_iFinsPort))
-				{
-					FINSCLIENT->WriteShort("DM5941.1", 1);
-					PrintMessage(emMsgType_Normal, _T("清空PLC厚度数据！"));
-					int iFness = fness * 1000;
-					unsigned short iValue = 0;
-					CString str;
-					str.Format(L"Fins写入塑封体厚度:%d成功", iValue);
-					(FINSCLIENT->WriteShort("DM5941.1", iFness)) == true ? ((FINSCLIENT->ReadShort("DM5941", iValue) == true) ? (PrintMessage(emMsgType_Success, L"Fins写入晶圆厚度成功！")) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"))) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"));
-				}
-				else
-				{
-					PrintMessage(emMsgType_Error, _T("FincTCP连接失败！"));
-					goto TestError;
-				}
-			}
-			else
-			{
-				PrintMessage(emMsgType_Error, _T("获取塑封体厚度失败！"));
-				goto TestError;
-			}
-		}
-	
-		// 单独生成参数文件，以供客户调取
-		if (!SaveLaserParamFile(sLotID))
-		{
-			PrintMessage(emMsgType_Error, _T("激光参数记录文件生成失败！"));
-			goto TestError;
-		}
+	//	// 根据LotID创建一个新的Log文件
+	//	StartLog(sLotID);  
 
-		// add by hhhuang 20260623 判断产品类型是否符合要求
-		if (m_pConfig->m_bCheckProductType) {
-			if (!com.CheckProductType(sLotID, m_markType, sErrMsg)) {
+	//	s.Format(_T("%s"), sLotID);
+	//	PrintMessage(emMsgType_Title, s);
+	//	//s.Format(_T("扫入Lot No:%s。Oper ID:%s"), sLotID, sOperID);
+	//	s.Format(_T("扫入LotID：%s"), sLotID);
+	//	PrintMessage(emMsgType_Normal, s);
 
-				PrintMessage(emMsgType_Error, _T("产品类型对比失败:") + sErrMsg);
-				goto TestError;
-			}
-		}
+	//	// 加载印章
+	//	if(!LoadSeal(sLotID))
+	//		goto TestError;
 
-		// 自动开始JOB
-		m_bScanBarcode = TRUE;
-		m_bSaveOriginDoc = TRUE;
-		m_bCCDOffseted = FALSE;
-		OnBnClickedButtonLoadJob();
-		
-		// 将LotID保存到配置档中
-		s.Format(_T("%d"), ++nLotIDTimes);
-		WritePrivateProfileString(_T("LotID"), sLotID, s, _T("D:\\HT LotID Record\\") + CTime::GetCurrentTime().Format(_T("%Y%m")) + _T(".ini"));
+	//	// 发送制程给PLC软件
+	//	if (!SwitchVisionProcess())
+	//	{
+	//		//PrintMessage(emMsgType_Error, _T("制程切换失败！"));
+	//		goto TestError;
+	//	}
+	//	//写入欧姆龙PLC晶圆厚度
+	//	if (m_pConfig->m_bCheckFinsPLC) {
 
-		// 焦点移到开批按钮上
-		GetDlgItem(IDC_BUTTON_STARTLOT)->SetFocus();
-		
-		//更新Mapping状态
-		UpdateIOStatus(UISIGNAL_MAP);
-		UpdateIOStatus(UISIGNAL_2D);
-		UpdateIOStatus(UISIGNAL_PWS);
-		UpdateIOStatus(UISIGNAL_NET);
-		// 更新图档类型
-		GetDlgItem(IDC_STATIC_MARKTYPE)->ShowWindow(TRUE);
-		s.Format(_T("Type: %s"), m_markType);
-		SetDlgItemText(IDC_STATIC_MARKTYPE, s);
+	//		if (com.GetWaferThickness(sLotID))
+	//		{
+	//			fness = com.ReturnThickNess();
+	//			CString str;
+	//			str.Format(L"成功获取塑封体厚度：%f", fness);
+	//			PrintMessage(emMsgType_Normal, str);
+	//			if (FINSCLIENT->ConnServer(m_pConfig->m_sFinsIP, m_pConfig->m_iFinsPort))
+	//			{
+	//				FINSCLIENT->WriteShort("DM5941.1", 1);
+	//				PrintMessage(emMsgType_Normal, _T("清空PLC厚度数据！"));
+	//				int iFness = fness * 1000;
+	//				unsigned short iValue = 0;
+	//				CString str;
+	//				str.Format(L"Fins写入塑封体厚度:%d成功", iValue);
+	//				(FINSCLIENT->WriteShort("DM5941", iFness)) == true ? ((FINSCLIENT->ReadShort("DM5941", iValue) == true) ? (PrintMessage(emMsgType_Success, L"Fins写入晶圆厚度成功！")) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"))) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"));
+	//			}
+	//			else
+	//			{
+	//				PrintMessage(emMsgType_Error, _T("FincTCP连接失败！"));
+	//				goto TestError;
+	//			}
+	//		}
+	//		else
+	//		{
+	//			PrintMessage(emMsgType_Error, _T("获取塑封体厚度失败！"));
+	//			goto TestError;
+	//		}
+	//	}
+	//
+	//	// 单独生成参数文件，以供客户调取
+	//	if (!SaveLaserParamFile(sLotID))
+	//	{
+	//		PrintMessage(emMsgType_Error, _T("激光参数记录文件生成失败！"));
+	//		goto TestError;
+	//	}
 
-		m_bFirstLoadDocForDummy = true;
-		
-		return;
+	//	// add by hhhuang 20260623 判断产品类型是否符合要求
+	//	if (m_pConfig->m_bCheckProductType) {
+	//		if (!com.CheckProductType(sLotID, m_markType, sErrMsg)) {
 
-	TestError:
-		ResetStatus();
+	//			PrintMessage(emMsgType_Error, _T("产品类型对比失败:") + sErrMsg);
+	//			goto TestError;
+	//		}
+	//	}
 
-		GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(TRUE);
-		GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(TRUE);
-		SetDlgItemText(IDC_EDIT_LOTID, _T(""));
-		GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
+	//	// 自动开始JOB
+	//	m_bScanBarcode = TRUE;
+	//	m_bSaveOriginDoc = TRUE;
+	//	m_bCCDOffseted = FALSE;
+	//	OnBnClickedButtonLoadJob();
+	//	
+	//	// 将LotID保存到配置档中
+	//	s.Format(_T("%d"), ++nLotIDTimes);
+	//	WritePrivateProfileString(_T("LotID"), sLotID, s, _T("D:\\HT LotID Record\\") + CTime::GetCurrentTime().Format(_T("%Y%m")) + _T(".ini"));
+
+	//	// 焦点移到开批按钮上
+	//	GetDlgItem(IDC_BUTTON_STARTLOT)->SetFocus();
+	//	
+	//	//更新Mapping状态
+	//	UpdateIOStatus(UISIGNAL_MAP);
+	//	UpdateIOStatus(UISIGNAL_2D);
+	//	UpdateIOStatus(UISIGNAL_PWS);
+	//	UpdateIOStatus(UISIGNAL_NET);
+	//	// 更新图档类型
+	//	GetDlgItem(IDC_STATIC_MARKTYPE)->ShowWindow(TRUE);
+	//	s.Format(_T("Type: %s"), m_markType);
+	//	SetDlgItemText(IDC_STATIC_MARKTYPE, s);
+
+	//	m_bFirstLoadDocForDummy = true;
+	//	
+	//	return;
+
+	//TestError:
+	//	ResetStatus();
+
+	//	GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(TRUE);
+	//	GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(TRUE);
+	//	SetDlgItemText(IDC_EDIT_LOTID, _T(""));
+	//	GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
+
+
 	}
 	else if (GetFocus() == GetDlgItem(IDC_EDIT_MARKSTAMP))
 	{
@@ -1800,7 +1811,7 @@ void CFormWorkControl::ResetStatus()
 
 	m_ctrlTips.ShowWindow(FALSE);
 	m_ctrlTips.ShowText(_T(""));
-
+	m_bAutoLoadFiled = FALSE;
 	//激光参数
 	m_pMainDlg->SetStaticText(IDC_STATIC_LASERPARAM, _T(""));
 }
@@ -1927,14 +1938,16 @@ void CFormWorkControl::PrintMessage(int nType, const CString & s, UINT nFlag)
 		CString sCurDate = CTime::GetCurrentTime().Format(_T("%Y-%m-%d %H:%M:%S\t"));
 		sText = sCurDate + s + _T("\n");
 	}
-	else {
+	else
+	{
 		sText += _T("\n");
 	}
 
 	if(0x01 & nFlag)
 		m_pMainDlg->PrintMessage((emFactoryMsgType_t)nType, sText);
-
-	if (0x02 & nFlag) {
+	g_HandleLogModule.RecodeAndDisplay(s, _T("CFormWorkControl"), (emLogEvent)nType);//
+	if (0x02 & nFlag) 
+	{
 		// 保存到Log中
 		if (m_bOpenFile)
 		{
@@ -1946,6 +1959,7 @@ void CFormWorkControl::PrintMessage(int nType, const CString & s, UINT nFlag)
 
 BOOL CFormWorkControl::LoadContent(const CString & sMarkFilePath, const CString & sStampFilePath)
 {
+	
 	CString s, sSrc, sDst;
 	bool bStampNameNull = sStampFilePath.IsEmpty();
 	std::vector<int> virefLayerID;
@@ -2485,6 +2499,7 @@ int32_t CFormWorkControl::StartMark(int iFlag)
 	{
 		PrintMessage(emMsgType_Warn, _T("未选中任何印章！"));
 		nRet = 0;
+		Sleep(5000);
 	}
 	else
 	{
@@ -3335,6 +3350,7 @@ void CFormWorkControl::OnClose()
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	__super::OnClose();
+	m_threadRemoteInfo.Exit();
 }
 
 void CFormWorkControl::ClearDialog()
@@ -4075,6 +4091,7 @@ TestError:
 
 int CFormWorkControl::VerifyRepeatLotID(const CString & sLotID)
 {
+
 	int nLotIDTimes = GetPrivateProfileInt(_T("LotID"), sLotID, 0, _T("D:\\HT LotID Record\\") + CTime::GetCurrentTime().Format(_T("%Y%m")) + _T(".ini"));
 
 	if (nLotIDTimes > 0)
@@ -4785,8 +4802,9 @@ void CFormWorkControl::GetFontNameInfo(CString fontname)  //获取字体名称信息
 bool CFormWorkControl::VerifyFontName()   
 {
 	std::vector <std::string> fontNameFromStampDoc;
-	m_pWaferDoc->GetAllTextFontName(fontNameFromStampDoc);
-
+	//Update by hhhuang 20260901:只获取Good Bin(BINO)中的字体 数量
+	//m_pWaferDoc->GetAllTextFontName(fontNameFromStampDoc);
+	m_pWaferDoc->GetWafer(0)->GetAllTextFontName(fontNameFromStampDoc);
 	int nXMLCnt = m_vsFontName.size();
 	int nDocCnt = fontNameFromStampDoc.size();
 
@@ -5347,8 +5365,17 @@ int32_t CFormWorkControl::ChangeBin(CStringArray &binInfo, int column)  //2D Map
 			m_iBinMap.push_back(nWaferID);
 			pWaferGroup->vWaferMetas[i].SetWaferID(nWaferID);
 		}
-		m_nMapOKCount = iOK;
-		m_nMapNGCount = nMapCount - iOK;
+		//m_nMapOKCount = iOK;
+		//m_nMapNGCount = nMapCount - iOK;
+		if (IsDummy())
+		{
+			PrintMessage(emMsgType_Normal, _T("Dummy模式下，不添加产品数量"));
+		}
+		else
+		{
+			AddMesMappingData(GetLotIDCur(), CFactoryConfig::Instance()->m_sDeviceNo, iOK, nMapCount - iOK);
+
+		}
 		s.Format(_T("Mapping数据统计：打正常产品：%d颗，打废产品：%d颗"), iOK, nMapCount - iOK);
 		PrintMessage(emMsgType_Normal, s);
 
@@ -6122,6 +6149,19 @@ bool CFormWorkControl::VerifyStripID(const CString &sStripID)  //检查StripID批次
 		return false;
 	}
 
+	// Add by hhhuang 20260818: 每次扫描StripID后，也要检查对应的工单的过站信息
+	if (!USER_VERIFY(USER_O_IGNORE_CHECK_EQUIPMENTID))
+	{
+		m_pMySoap->SetUrl(m_pConfig->m_sMesTrackInUrl);
+		BOOL bMatch = m_pMySoap->IsEquipmentTrackInLotId(m_pConfig->m_sDeviceNo, m_sLotIDCur);
+		if (!bMatch)
+		{
+			msg.Format(_T("过站信息[设备ID:%s, LotID:%s]检查失败。详细失败原因：%s"), m_pConfig->m_sDeviceNo, m_sLotIDCur, m_pMySoap->GetLastError());
+			PrintMessage(emMsgType_Error, msg);
+			return false;
+		}
+	}
+
 	int iRet = VerifyRepeatStripID(sStripID);
 	return (-1 != iRet);
 
@@ -6244,6 +6284,7 @@ BOOL CFormWorkControl::SwitchVisionProcess()
 void CFormWorkControl::OnBnClickedCheckTryDummy()
 {
 	// TODO: 在此添加控件通知处理程序代码
+
 	if (IsDummy())
 	{
 		// 首检选打，在工程师权限下不限次数选用
@@ -6612,73 +6653,503 @@ void CFormWorkControl::OnLbnSelchangeListLaserParam()
 
 BOOL CFormWorkControl::CheckMesInfo()
 {
-	if (m_nMapOKCount == 0)
+	if (!CFactoryConfig::Instance()->m_FinishedLotIP)
 	{
 		return TRUE;
 	}
-	if(!m_pConfig->m_EnableFinishedLot)
+	LoadeLotInfo();
+	if (m_mapLotReport.size() == 0)
 	{
-		//PrintMesMessage(emMsgType_Warn, _T("未启用MES完成批次信息上传功能！"));
+		PrintMesMessage(emFactoryMsgType_t::emMsgType_Normal,_T("OK数量:0 不进行上报处理"));
 		return TRUE;
 	}
-	//m_pFactoryConfig->m_sDeviceNo
-	CString sLotID;
-	GetDlgItemText(IDC_EDIT_LOTID, sLotID);
-
-	CString strServer, strObject;
-	INTERNET_PORT nPort;
-	DWORD dwServiceType;
-	if (!AfxParseURL(m_pConfig->m_FinishedLotUrl, dwServiceType, strServer, strObject, nPort))
-	{
-		CString errmsg;
-		errmsg.Format(_T("检查产品类型的URL[%s]格式错误"), m_pConfig->m_FinishedLotUrl);
-		return FALSE;
-	}
-	CICMesComEAPHttpQp p;
 	
-	p.ConnectMes(strServer, nPort,this);
-	map<CString, CString> mapInfo;
-	mapInfo[_T("EQPID")] = CFactoryConfig::Instance()->m_sDeviceNo;
-	mapInfo[_T("LOTID")] = sLotID;
-	mapInfo[_T("EQPMODEL")] = _T("HTM-3032");
-	CString s;
-	s.Format(_T("%d"), m_nMapOKCount+m_nMapNGCount);// CFactoryConfig::Instance()->m_nMaxMarkTimes);
-	mapInfo[_T("QTY")] = s;
-	s.Format(_T("%d"), m_nMapNGCount);
-	mapInfo[_T("DEFECTQTY")] =s;
-	return p.GetFinishLotInfo(mapInfo);
+	BOOL bRet = TRUE;
+	for (auto it : m_mapLotReport)
+	{
+	
+		DWORD dwServiceType;
+		CString strServer;
+		CString strObject;
+		INTERNET_PORT nPort;
+		if (!AfxParseURL(CFactoryConfig::Instance()->m_FinishedLotIP, dwServiceType, strServer, strObject, nPort))
+		{
+			AfxMessageBox(_T("结批校验url 网址格式不正确！"));
+			return FALSE;
+		}
+		CICMesComEAPHttpQp p;
+		p.ConnectMes(strServer, nPort, this);
+		map<CString, CString> mapInfo;
+		mapInfo[_T("EQPID")] = it.second.EqpID;
+		mapInfo[_T("LOTID")] = it.second.LotID;
+
+		mapInfo[_T("EQPMODEL")] = _T("HTM-3032");
+		CString s;
+		s.Format(_T("%d"), it.second.OKNumber);//m_nMapOKCount
+		mapInfo[_T("QTY")] = s;
+		s.Format(_T("%d"), it.second.NGNumber);// m_nMapNGCount);
+		mapInfo[_T("DEFECTQTY")] = s;
+		bRet = p.GetFinishLotInfo(mapInfo);
+		if (!bRet)
+		{
+			CString strInfo;
+			strInfo.Format(_T("批次号：%s OK 数量：%d NG数量: %d 校验反馈异常."), it.second.LotID, it.second.OKNumber, it.second.NGNumber);
+			PrintMessage(emFactoryMsgType_t::emMsgType_Error, strInfo);
+			return FALSE;
+		}
+	}
+	
+	
 	//return FALSE;
 }
 
-BOOL CFormWorkControl::QueryEqpInfo()
+BOOL CFormWorkControl::GetMesMappingInfo(CString& strLot,CString& strEqpID,int&nOKCount,int& nNGCount)
 {
-
-	if (!m_pConfig->m_EnableFinishedLot)
+	CString sLotID = GetLotIDCur();
+	
+	
+	if (m_mapLotReport.find(sLotID) != m_mapLotReport.end())
 	{
-		//PrintMesMessage(emMsgType_Warn, _T("未启用MES完成批次信息上传功能！"));
+		nOKCount = m_mapLotReport[sLotID].OKNumber;
+		nNGCount = m_mapLotReport[sLotID].OKNumber;
+
+	}
+	else
+	{
+		nOKCount = 0;
+		nNGCount = 0;
+		
+	}
+	return 0;
+}
+
+BOOL CFormWorkControl::AddMesMappingData(CString LotID, CString EqpID, int nOKCount, int nNgCount)
+{
+	LotID.Trim();
+	//if (m_mapLotReport.find(LotID) != m_mapLotReport.end())
+	{
+		m_mapLotReport[LotID].NGNumber += nNgCount;
+		m_mapLotReport[LotID].OKNumber += nOKCount;
+		m_mapLotReport[LotID].LotID = LotID;
+		m_mapLotReport[LotID].EqpID = EqpID;
+		//lotID  TR33DQ47.3  TR33DQ47.4 TR33DQ47.5
+		SaveLotInfo(LotID);
+	}
+
+	return 0;
+}
+BOOL CFormWorkControl::SplitLotNumber(const CString& strInput, CString& strMain, CString& strSub)
+{
+	strMain.Empty();
+	strSub.Empty();
+
+	int nPos = strInput.Find(_T('.'));
+	if (nPos == -1)
+	{
+		// 没有点号，整串作为主批次
+		strMain = strInput;
+		return FALSE;
+	}
+
+	strMain = strInput.Left(nPos);          // TR33DQ47
+	strSub = strInput.Mid(nPos + 1);       // 3
+	return TRUE;
+}
+BOOL CFormWorkControl::SaveLotInfo(CString LotID)
+{
+	CSingleLock lock(&m_csLockFile);
+	lock.Lock();
+	CString strMain, strSuffix;
+	CString strPath;
+	SYSTEMTIME sm;
+	GetLocalTime(&sm);
+	SplitLotNumber(LotID, strMain, strSuffix);
+	strPath.Format(_T("%s\\批次信息\\%d年%.2d月\\%d%.2d%.2d\\%s.csv"), m_pConfig->m_sLogFilePath,sm.wYear,sm.wMonth,sm.wYear,sm.wMonth,sm.wDay, strMain);//
+	BOOL bFirst = TRUE;
+	CCsvFile file;
+	file.SetCsvFileHeader(vector<CString>{_T("LotID"), _T("NgNumber"), _T("OKNumber"),_T("EQPID")});
+	for (auto it :m_mapLotReport)
+	{
+		vector<CString>vInfo;
+		vInfo.push_back(LotID);
+		vInfo.push_back(toString(it.second.NGNumber));
+		vInfo.push_back(toString(it.second.OKNumber));
+		vInfo.push_back(it.second.EqpID);
+		if (bFirst)
+		{
+			file.WriteString(strPath, vInfo,bFirst);
+			bFirst = FALSE;
+		}
+		else
+		{
+			file.WriteString(strPath, vInfo );
+		}
+		
+		
+	}
+	// 写入当前文件记录实时的产品信息
+	strPath.Format(_T("%s\\批次信息\\LotInfoStatus.csv"), m_pConfig->m_sLogFilePath);//
+	CCsvFile csvFile;
+	csvFile.SetCsvFileHeader(vector<CString>{_T("LotID"), _T("NgNumber"), _T("OKNumber"), _T("EQPID")});
+	 bFirst = TRUE;
+	for (auto it : m_mapLotReport)
+	{
+		vector<CString>vInfo;
+		vInfo.push_back(LotID);
+		vInfo.push_back(toString(it.second.NGNumber));
+		vInfo.push_back(toString(it.second.OKNumber));
+		vInfo.push_back(it.second.EqpID);
+		if (bFirst)
+		{
+			csvFile.WriteString(strPath, vInfo, bFirst);
+			bFirst = FALSE;
+		}
+		else
+		{
+			csvFile.WriteString(strPath, vInfo);
+
+		}
+		bFirst = FALSE;
+	}
+	
+	return 0;
+}
+
+CString CFormWorkControl::toString(int value)
+{
+	CString str;
+	str.Format(_T("%d"), value);
+	return str;
+}
+
+BOOL CFormWorkControl::LoadeLotInfo()
+{
+	CSingleLock lock(&m_csLockFile);
+	lock.Lock();
+	CString strPath;
+	strPath.Format(_T("%s\\批次信息\\LotInfoStatus.csv"), m_pConfig->m_sLogFilePath);//
+
+	CCsvFile csvFile;
+	CString strRead;
+	vector<CString>vRead;
+	if (!csvFile.ReadString(strPath, strRead))
+	{
+		return FALSE;
+	}
+	csvFile.SpliteLine(strRead, vRead);
+	for (int  nLine = 1; nLine < vRead.size(); nLine++)
+	{
+		vector<CString>vItem;
+		csvFile.SpliteItem(vRead[nLine], vItem);
+		if (vItem.size() != 4) 
+		{
+			AfxMessageBox(_T("检测本地信息异常"));
+			return false; 
+		}
+		lotInfoHttp sinfo;
+		sinfo.LotID = vItem[0];
+		sinfo.NGNumber = _ttoi(vItem[1]);
+		sinfo.OKNumber = _ttoi(vItem[2]);
+		sinfo.EqpID = vItem[3];
+		m_mapLotReport[sinfo.LotID] = sinfo;
+	}
+
+	return 0;
+}
+
+void CFormWorkControl::ResetMesMapping()
+{
+	CString strPath;
+	strPath.Format(_T("%s\\批次信息\\LotInfoStatus.csv"), m_pConfig->m_sLogFilePath);//
+	if (::DeleteFile(strPath))
+	{
+
+	}
+	m_mapLotReport.clear();
+}
+
+
+
+void CFormWorkControl::LoadLotInfo(CString sLotID,BOOL bAuto)
+{
+		CString s, sErrMsg;
+		// 清空消息框
+		CHttpComHT com(this);
+		float fness;
+		m_pMainDlg->ClearMessage();
+
+		// 清空激光参数显示
+		ClearLaserParamShow();
+
+		CString sOperID;// , sLotID;
+		//GetDlgItemText(IDC_EDIT_LOTID, sLotID);
+		//GetDlgItemText(IDC_EDIT_OPERID, sOperID);
+		if (sLotID.IsEmpty())
+		{
+			AfxMessageBox(_T("Lot ID为空！"));
+			GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
+			return;
+		}
+	
+
+		if (!IsIgnoreCCDCheckAndSwitchVisionProcess())
+		{
+			if (m_pConfig->m_bCheckVisualSystem)
+			{
+				if (!CheckCCDStatus()) {         //CCD未连接不能扫码
+					s.Format(_T("视觉系统（CCD）未连接！"));
+					PrintMessage(emMsgType_Error, s);
+					goto TestError;
+				}
+			}
+		}
+
+		//扫入lotID检测与由小写转化为大写
+		if (!GetAndCheckLotID(sLotID))
+		{
+			goto TestError;
+		}
+
+		GetDlgItem(IDC_EDIT_LOTID)->SetWindowText(sLotID);
+		// 判断扫描的LotID是不是已经在本机上扫描过
+		int nLotIDTimes = 0;
+		if (!bAuto)
+		{
+
+			nLotIDTimes = VerifyRepeatLotID(sLotID);
+		}
+
+		GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(FALSE);
+		GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(FALSE);
+		GetDlgItem(IDC_EDIT_OPERID)->UpdateWindow();  // 及时更新控件
+		GetDlgItem(IDC_EDIT_LOTID)->UpdateWindow();   // 及时更新控件
+
+		// 根据LotID创建一个新的Log文件
+		StartLog(sLotID);
+
+		s.Format(_T("%s"), sLotID);
+		PrintMessage(emMsgType_Title, s);
+		//s.Format(_T("扫入Lot No:%s。Oper ID:%s"), sLotID, sOperID);
+		s.Format(_T("扫入LotID：%s"), sLotID);
+		PrintMessage(emMsgType_Normal, s);
+
+		// 加载印章
+		if (!LoadSeal(sLotID))
+			goto TestError;
+
+		// 发送制程给PLC软件
+		if (!SwitchVisionProcess())
+		{
+			//PrintMessage(emMsgType_Error, _T("制程切换失败！"));
+			goto TestError;
+		}
+		//写入欧姆龙PLC晶圆厚度
+		if (m_pConfig->m_bCheckFinsPLC) 
+		{
+
+			if (com.GetWaferThickness(sLotID))
+			{
+				fness = com.ReturnThickNess();
+				CString str;
+				str.Format(L"成功获取塑封体厚度：%f", fness);
+				PrintMessage(emMsgType_Normal, str);
+				if (FINSCLIENT->ConnServer(m_pConfig->m_sFinsIP, m_pConfig->m_iFinsPort))
+				{
+					FINSCLIENT->WriteShort("DM5941.1", 1);
+					PrintMessage(emMsgType_Normal, _T("清空PLC厚度数据！"));
+					int iFness = fness * 1000;
+					unsigned short iValue = 0;
+					CString str;
+					str.Format(L"Fins写入塑封体厚度:%d成功", iValue);
+					(FINSCLIENT->WriteShort("DM5941", iFness)) == true ? ((FINSCLIENT->ReadShort("DM5941", iValue) == true) ? (PrintMessage(emMsgType_Success, L"Fins写入晶圆厚度成功！")) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"))) : (PrintMessage(emMsgType_Error, L"Fins写入晶圆厚度失败！"));
+				}
+				else
+				{
+					PrintMessage(emMsgType_Error, _T("FincTCP连接失败！"));
+					goto TestError;
+				}
+			}
+			else
+			{
+				PrintMessage(emMsgType_Error, _T("获取塑封体厚度失败！"));
+				goto TestError;
+			}
+		}
+
+		// 单独生成参数文件，以供客户调取
+		if (!SaveLaserParamFile(sLotID))
+		{
+			PrintMessage(emMsgType_Error, _T("激光参数记录文件生成失败！"));
+			goto TestError;
+		}
+
+		// add by hhhuang 20260623 判断产品类型是否符合要求
+		if (m_pConfig->m_bCheckProductType) 
+		{
+			if (!com.CheckProductType(sLotID, m_markType, sErrMsg))
+			{
+
+				PrintMessage(emMsgType_Error, _T("产品类型对比失败:") + sErrMsg);
+				goto TestError;
+			}
+		}
+
+		// 自动开始JOB
+		m_bScanBarcode = TRUE;
+		m_bSaveOriginDoc = TRUE;
+		m_bCCDOffseted = FALSE;
+		OnBnClickedButtonLoadJob();
+
+		// 将LotID保存到配置档中
+		s.Format(_T("%d"), ++nLotIDTimes);
+		WritePrivateProfileString(_T("LotID"), sLotID, s, _T("D:\\HT LotID Record\\") + CTime::GetCurrentTime().Format(_T("%Y%m")) + _T(".ini"));
+
+		// 焦点移到开批按钮上
+		GetDlgItem(IDC_BUTTON_STARTLOT)->SetFocus();
+
+		//更新Mapping状态
+		UpdateIOStatus(UISIGNAL_MAP);
+		UpdateIOStatus(UISIGNAL_2D);
+		UpdateIOStatus(UISIGNAL_PWS);
+		UpdateIOStatus(UISIGNAL_NET);
+		// 更新图档类型
+		GetDlgItem(IDC_STATIC_MARKTYPE)->ShowWindow(TRUE);
+		s.Format(_T("Type: %s"), m_markType);
+		SetDlgItemText(IDC_STATIC_MARKTYPE, s);
+
+		m_bFirstLoadDocForDummy = true;
+		m_bAutoLoadFiled = TRUE;
+		return;
+
+	TestError:
+		ResetStatus();
+
+		GetDlgItem(IDC_EDIT_OPERID)->EnableWindow(TRUE);
+		GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(!m_pConfig->m_EnableRemoteLotURL);
+		//GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(TRUE);
+		SetDlgItemText(IDC_EDIT_LOTID, _T(""));
+		//GetDlgItem(IDC_EDIT_LOTID)->SetFocus();
+		
+}
+
+
+
+BOOL CFormWorkControl::RemoteLotInfomation()
+{
+	if (!CFactoryConfig::Instance()->m_EnableRemoteLotURL || emWorkMode_Auto != CFactoryConfig::Instance()->m_nWorkMode)
+	{
 		return TRUE;
 	}
-	//m_pFactoryConfig->m_sDeviceNo
-	CString sLotID;
-	GetDlgItemText(IDC_EDIT_LOTID, sLotID);
-
-	CString strServer, strObject;
-	INTERNET_PORT nPort;
-	DWORD dwServiceType;
-	if (!AfxParseURL(m_pConfig->m_FinishedLotUrl, dwServiceType, strServer, strObject, nPort))
+	if (m_bQueryLotInfo)
 	{
-		CString errmsg;
-		errmsg.Format(_T("检查产品类型的URL[%s]格式错误"), m_pConfig->m_FinishedLotUrl);
+	//	PrintMessage(emFactoryMsgType_t::emMsgType_Normal, _T("查询到已经存在工单未结批，不请求工单号"));
+
+		return TRUE;
+	}
+	DWORD dwServiceType;
+	CString strServer;
+	CString strObject;
+	INTERNET_PORT nPort;
+	if (!AfxParseURL(CFactoryConfig::Instance()->m_RemotLotURL, dwServiceType, strServer, strObject, nPort))
+	{
+		AfxMessageBox(_T("Lot下载url 网址格式不正确！"));
 		return FALSE;
 	}
 	CICMesComEAPHttpQp p;
-
 	p.ConnectMes(strServer, nPort, this);
-	map<CString, CString> mapInfo;
-	mapInfo[_T("lotid")] = _T("");
-	mapInfo[_T("eqpid")] = _T("");
-	mapInfo[_T("fatr")] = _T("false");
+	//test
+	//{
+	//	CString strLotID, strEQPID;
+	//	strLotID = _T("LOTID");
+	//	strEQPID = _T("EQPID");
+	//	p.RemoveEQPInfomation(strLotID, strEQPID);
+	//}
+	CString strlotId, strEqpId;
+	strEqpId = CFactoryConfig::Instance()->m_sDeviceNo;
+	strlotId.Empty();
+	
+	p.GetEQPInfomation(strlotId, strEqpId);
+	if (strEqpId.IsEmpty() || strEqpId.Find(CFactoryConfig::Instance()->m_sDeviceNo) < 0)
+	{
+		CString strInfo;
+		strInfo.Format(_T("查询到 服务器设备ID：%s 与本地设备ID:%s 不一致,请进行检查校验"), strEqpId, CFactoryConfig::Instance()->m_sDeviceNo);
+		PrintMessage(emFactoryMsgType_t::emMsgType_Error, strInfo);
+		return FALSE;
+	}
+	if (strlotId.IsEmpty())
+	{
+		PrintMessage(emFactoryMsgType_t::emMsgType_Error ,_T("查询LotID 为空"));
+		return FALSE;
+	}
+	
+	
+	if (strlotId != m_strCurlotId  || !m_bAutoLoadFiled)// 进行下载数据 或者文件未加载成功时 需要重新加载数据
+	{
+		
+		m_bAutoLoadFiled = FALSE; 
+		//AutoLoadFile();
+		::SendMessage(m_hWnd, WM_USER_AUTO_LOT, (WPARAM)&strlotId,NULL );
+		if (m_bAutoLoadFiled)
+		{
+			
+			m_bQueryLotInfo = TRUE;
+			m_strCurlotId = strlotId;
+			m_strCurEqpId = strEqpId;
+			if (!p.RemoveEQPInfomation(strlotId, strEqpId))
+			{
+				PrintMessage(emFactoryMsgType_t::emMsgType_Error, _T("远程移除数据失败，请检查数据返回数据是否正常..."));
+			}
+			
+		}
+		
+	}
+	 
+	return 0;
+}
 
-	return p.GetFinishLotInfo(mapInfo);
+UINT CFormWorkControl::RemoteLotInfomationThread(LPVOID pParam)
+{
+	CFormWorkControl* pThis = (CFormWorkControl*)pParam;
+	CIThread* pThread = &pThis->m_threadRemoteInfo;
+	DWORD dwStart = GetTickCount();
+	while (TRUE)
+	{
+		if (pThread->BlockWaitEvent()) { break; }
+		pThis->RemoteLotInfomation();
+		while ((GetTickCount() - dwStart) < 5000)
+		{
+
+			Sleep(100);
+			if (pThread->BlockWaitEvent()) { break; }
+
+		}
+		dwStart = GetTickCount();
+		Sleep(100);
+
+	}
+	
+	return 0;
+}
+
+
+LRESULT CFormWorkControl::OnAutoLotInfo(WPARAM wParam, LPARAM lParam)
+{
+	CString*str = (CString*)wParam;
+
+	SetDlgItemText(IDC_EDIT_LOTID, *str);
+
+	
+	LoadLotInfo(*str,TRUE);
+
+	
+	return 0;
+}
+
+LRESULT CFormWorkControl::OnEnableWindowControl(WPARAM wParam, LPARAM lParam)
+{
+	BOOL  bEnable = (int)wParam;
+
+	GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(bEnable);
+	//GetDlgItem(IDC_EDIT_LOTID)->EnableWindow(bEnable);
 	return 0;
 }

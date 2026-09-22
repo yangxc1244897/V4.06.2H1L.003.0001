@@ -139,10 +139,12 @@ void CFactoryConfig::LoadConfig(void)
 	m_iFinsPort = GetData(_T("Global"), _T("m_iFinsPort"), 8080);
 
 	//
-	m_FinishedLotUrl = GetData(_T("Global"), _T("m_FinishedLotUrl"), CString(_T("http:172.25.1.103:6000")));	
-	m_EnableFinishedLot = GetData(_T("Global"), _T("m_EnableFinishedLot"), true);
+	m_FinishedLotIP = GetData(_T("Global"), _T("m_FinishedLotIP"), CString(_T("172.25.1.103")));
+	m_EnableFinishedLot = GetData(_T("Global"), _T("m_EnableFinishedLot"), false);
+	m_RemotLotURL = GetData(_T("Global"), _T("m_RemotLotURL"), CString(_T("172.25.1.103")));
+	m_EnableRemoteLotURL = GetData(_T("Global"), _T("m_EnableRemoteLotURL"), false);
 
-	
+
 	memset(buff, sizeof buff, 0);
 	GetPrivateProfileString(_T("Global"), _T("m_FinsIP"), _T("192.168.100.100"), buff, 1024, g_sConfigPath);
 	m_sFinsIP = buff;
@@ -251,9 +253,11 @@ void CFactoryConfig::SaveConfig(void)
 	WriteData(_T("Global"), _T("m_iVisionCheckPort"), m_iVisionCheckPort);
 	WriteData(_T("Global"), _T("m_iFinsPort"), m_iFinsPort);
 //
-	WriteData(_T("Global"), _T("m_FinishedLotUrl"), m_FinishedLotUrl);
+	WriteData(_T("Global"), _T("m_FinishedLotIP"), m_FinishedLotIP);
 	WriteData(_T("Global"), _T("m_EnableFinishedLot"), m_EnableFinishedLot);
 
+	WriteData(_T("Global"), _T("m_RemotLotURL"), m_RemotLotURL);
+	WriteData(_T("Global"), _T("m_EnableRemoteLotURL"), m_EnableRemoteLotURL);
 	WritePrivateProfileString(_T("Global"), _T("m_FinsIP"), m_sFinsIP, g_sConfigPath);
 }
 

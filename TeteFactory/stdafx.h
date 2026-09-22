@@ -120,6 +120,8 @@ enum emFactoryMsgType_t
 
 #define WM_USER_SCAN_PROCESS WM_USER+1
 #define WM_USER_START_PROCESS WM_USER+2  //开始标记（检测到开始信号）
+#define WM_USER_AUTO_LOT  WM_USER+3  //开始标记（检测到开始信号）
+#define WM_USER_AUTO_ENABLECONTROL WM_USER+4  //启用还是不启用主界面编辑框是否可用
 
 
 // 编辑框控件设置浮点数或整形

@@ -20,8 +20,8 @@
 #include "StartMarkSingal.h"
 #include "C2DContentRepeatCheck.h"
 #include "MyNSocketServer.h"
-
-
+#include "IThread.h"
+#include "CsvFile.h"
 const CString g_sMTNormal = _T("NORMAL");
 const CString g_sMTCard = _T("CARD");
 const CString g_sMTUnit = _T("UNIT");
@@ -420,7 +420,40 @@ public:
 	afx_msg void OnLbnSelchangeListLaserParam();
 	// 校验工单号 http协议处理
 	BOOL CheckMesInfo();
-	BOOL QueryEqpInfo();
-	int m_nMapOKCount;
-	int m_nMapNGCount;
+	//远程下载lot信息
+	BOOL RemoteLotInfomation();
+	CString  m_strCurlotId;// 远程读取lot id
+	CString  m_strCurEqpId;//远程读取设备id
+	CIThread m_threadRemoteInfo;
+	static UINT RemoteLotInfomationThread(LPVOID pParam);
+	BOOL m_bAutoLoadFiled = FALSE;//自动加载lot完成变量
+	BOOL m_bQueryLotInfo = FALSE;// 结批后才开始查询工单号
+	afx_msg LRESULT OnAutoLotInfo(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnEnableWindowControl(WPARAM wParam, LPARAM lParam);
+	int m_nMapOKCount =0;
+	int m_nMapNGCount =0;
+
+
+	// 批次信息
+	struct  lotInfoHttp
+	{
+		int NGNumber;
+		int OKNumber;
+		CString LotID;
+		CString EqpID;
+	};
+	map<CString, lotInfoHttp> m_mapLotReport;
+	BOOL  GetMesMappingInfo(CString& strLot, CString& strEqpID, int& nOKCount, int& nNGCount);
+	BOOL AddMesMappingData(CString LotID,CString EqpID, int nOKCount, int nNgCount);
+
+	BOOL SplitLotNumber(const CString& strInput, CString& strMain, CString& strSub);
+
+	BOOL SaveLotInfo(CString LotID);
+	CCriticalSection m_csLockFile;
+	CString toString(int value);
+	BOOL LoadeLotInfo();
+	CCsvFile m_csvFile;
+	void ResetMesMapping();
+
+	void LoadLotInfo(CString sLotID, BOOL bAuto);
 };

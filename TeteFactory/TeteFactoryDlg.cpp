@@ -19,6 +19,7 @@
 #define new DEBUG_NEW
 #endif
 #include <ICMesComEAPHttpQP.h>
+#include <FinsTCP/FinsTcpClient.h>
 
 #define  GETLASTINPUTINFO  1
 
@@ -735,13 +736,20 @@ void CTeteFactoryDlg::OnSelchangingTabMain(NMHDR *pNMHDR, LRESULT *pResult)
 
 void CTeteFactoryDlg::OnBnClickedButtonHistorylog()
 {
-	// TODO: 在此添加控件通知处理程序代码
+	//// TODO: 在此添加控件通知处理程序代码
+	//m_pWorkControl->AddMesMappingData(_T("info"), CFactoryConfig::Instance()->m_sDeviceNo, 100, 20);
+	//m_pWorkControl->AddMesMappingData(_T("info.1"), CFactoryConfig::Instance()->m_sDeviceNo, 100, 20);
+	//m_pWorkControl->AddMesMappingData(_T("info.2"), CFactoryConfig::Instance()->m_sDeviceNo, 100,20);
 
+	//m_pWorkControl->CheckMesInfo();
+	//m_pWorkControl->RemoteLotInfomation();
+	//return;
+	
 	CString sLotID;
 	GetDlgItemText(IDC_EDIT_LOTID, sLotID);
 
 
-	
+
 	if (!m_pWorkControl->RightConfirmBox(USER_O_EDIT_PRINT_COUNT))
 		return;
 

@@ -250,10 +250,9 @@ BOOL CDlgFactorySet::OnInitDialog()
 
 
 	CString m_sOld2DPath = m_pFactoryConfig->m_s2DPath;
-
-	((CButton*)GetDlgItem(IDC_FINS_CHECK_MES_CHECK))->SetCheck(m_pFactoryConfig->m_EnableFinishedLot);    //CCD启用默认打开，且不可操作
-
-	SetDlgItemText(IDC_EDIT_URL_FINISHED_LOT, m_pFactoryConfig->m_FinishedLotUrl);
+	CString str;
+	
+	
 	UpdateData(FALSE);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -344,10 +343,18 @@ void CDlgFactorySet::EnableContrlByWork(int nWorkMode)
 		GetDlgItem(IDC_EDIT_MESURL3)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_URL_IP_PORT)->ShowWindow(TRUE);
 		GetDlgItem(IDC_EDIT_URL_PRODUCT_TYPE)->ShowWindow(TRUE);
-		GetDlgItem(IDC_EDIT_URL_FINISHED_LOT)->ShowWindow(TRUE);
-		
 		GetDlgItem(IDC_STATIC_URL3)->ShowWindow(TRUE);
 		GetDlgItem(IDC_STATIC_URL4)->ShowWindow(TRUE);
+
+		GetDlgItem(IDC_EDIT_URL_FINISH_LOT)->ShowWindow(TRUE);
+		GetDlgItem(IDC_EDIT_URL_REMOTE_LOT)->ShowWindow(TRUE);
+
+		GetDlgItem(IDC_STATIC_URL5)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC_URL6)->ShowWindow(TRUE);
+		GetDlgItem(IDC_STATIC_URL7)->ShowWindow(TRUE);
+
+
+
 		OnBnClickedCheckMccheck();
 		OnBnClickedCheckMaxMarktimes();
 	}
@@ -410,11 +417,14 @@ void CDlgFactorySet::EnableContrlByWork(int nWorkMode)
 		GetDlgItem(IDC_EDIT_MESURL3)->ShowWindow(FALSE);
 		GetDlgItem(IDC_EDIT_URL_IP_PORT)->ShowWindow(FALSE);
 		GetDlgItem(IDC_EDIT_URL_PRODUCT_TYPE)->ShowWindow(FALSE);
-		GetDlgItem(IDC_EDIT_URL_FINISHED_LOT)->ShowWindow(FALSE);
-
 		GetDlgItem(IDC_STATIC_URL3)->ShowWindow(FALSE);
 		GetDlgItem(IDC_STATIC_URL4)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC_URL5)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC_URL6)->ShowWindow(FALSE);
+		GetDlgItem(IDC_STATIC_URL7)->ShowWindow(FALSE);
 
+		GetDlgItem(IDC_EDIT_URL_FINISH_LOT)->ShowWindow(FALSE);
+		GetDlgItem(IDC_EDIT_URL_REMOTE_LOT)->ShowWindow(FALSE);
 	}
 	else if (emWorkMode_Ponum == nWorkMode)
 	{
@@ -488,7 +498,8 @@ void CDlgFactorySet::EnableControlByRights()  //根据权限决定是否可操作
 	GetDlgItem(IDC_EDIT_MESURL3)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
 	GetDlgItem(IDC_EDIT_URL_IP_PORT)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
 	GetDlgItem(IDC_EDIT_URL_PRODUCT_TYPE)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
-	GetDlgItem(IDC_EDIT_URL_FINISHED_LOT)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
+	GetDlgItem(IDC_EDIT_URL_FINISH_LOT)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
+	GetDlgItem(IDC_EDIT_URL_REMOTE_LOT)->EnableWindow(USER_VERIFY(USER_O_MES_PATH_SET));
 
 
 
@@ -497,8 +508,6 @@ void CDlgFactorySet::EnableControlByRights()  //根据权限决定是否可操作
 	GetDlgItem(IDC_EDIT_PORT3)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_EDIT_FINS_PORT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_EDIT_FINS_IP)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
-	GetDlgItem(IDC_EDIT_URL_FINISHED_LOT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
-
 	
 	GetDlgItem(IDC_BUTTON_STARTSERVER)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_BUTTON_STARTSERVER2)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
@@ -508,6 +517,10 @@ void CDlgFactorySet::EnableControlByRights()  //根据权限决定是否可操作
 	GetDlgItem(IDC_CHECK_VISION)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_CHECK_PLC)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_FINS_CHECK)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
+	GetDlgItem(IDC_CHECK_FINISH_LOT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
+	GetDlgItem(IDC_CHECK_REMOTE_LOT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
+
+	
 	
 	GetDlgItem(IDC_VISION_CHECK)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 
@@ -515,10 +528,6 @@ void CDlgFactorySet::EnableControlByRights()  //根据权限决定是否可操作
 	GetDlgItem(IDC_CHECK_2D_BARCODE)->EnableWindow(USER_VERIFY(USER_O_ENABLE_2D));
 	GetDlgItem(IDC_CHECK_STRIPID_MATCH_LOTID)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
 	GetDlgItem(IDC_CHECK_PRODUCT_TYPE)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
-	GetDlgItem(IDC_FINS_CHECK_MES_CHECK)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
-	GetDlgItem(IDC_CHECK_MES_AUTO_LOT)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
-
-
 	GetDlgItem(IDC_COMBO_2D_REPEAT_MODE)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
 	GetDlgItem(IDC_BUTTON_DELETE_DATA)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
 	GetDlgItem(IDC_CHECK_MAX_MARKTIMES)->EnableWindow(USER_VERIFY(USER_O_BASIC_SET));
@@ -596,11 +605,12 @@ BOOL CDlgFactorySet::SaveParam()
 	EnableControlByRights();
 
 	m_pMainDlg->UpdateSet();
-
+	
 	m_bVisualSystem = ((CButton*)GetDlgItem(IDC_CHECK_VISUALSYSTEM))->GetCheck();
 
 	m_bCheckStripIDMatchLotID = ((CButton*)GetDlgItem(IDC_CHECK_STRIPID_MATCH_LOTID))->GetCheck();
-
+	// 发消息给主界面是否启用
+	::PostMessage(m_pMainDlg->m_pWorkControl->m_hWnd, WM_USER_AUTO_ENABLECONTROL, !m_pFactoryConfig->m_EnableRemoteLotURL, 0);
 	return TRUE;
 }
 
@@ -780,9 +790,11 @@ HBRUSH CDlgFactorySet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		|| nID == IDC_EDIT_MAX_MARKTIMES
 		|| nID == IDC_EDIT_GFH_PATH
 		|| nID == IDC_EDIT_LASER_PARAM_SAVE_PATH
-		|| nID == IDC_EDIT_URL_FINISHED_LOT)
-	{
+		|| nID == IDC_EDIT_URL_FINISH_LOT
+		|| nID == IDC_EDIT_URL_REMOTE_LOT
 		
+		)
+	{
 		pDC->SetTextColor(EDIT_TEXT_COLOR);//设置编辑框字体的颜色
 		pDC->SetBkColor(EDIT_BKCOLOR);//设置字体背景颜色
 		return (HBRUSH)m_EditBkBrush.GetSafeHandle();
@@ -808,8 +820,8 @@ HBRUSH CDlgFactorySet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		|| nID == IDC_CHECK_VISION
 		|| nID == IDC_CHECK_PLC
 		|| nID == IDC_FINS_CHECK
-		|| nID == IDC_FINS_CHECK_MES_CHECK
-		|| nID == IDC_CHECK_MES_AUTO_LOT
+		|| nID == IDC_CHECK_FINISH_LOT
+		|| nID == IDC_CHECK_REMOTE_LOT
 		)
 	{
 		pDC->SetTextColor(STATIC_COLOR);// 设置编辑框字体的颜色
@@ -959,13 +971,12 @@ void CDlgFactorySet::SetGroupCheckRadioTheme()
 	SetWindowTheme(GetDlgItem(IDC_VISION_CHECK)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_CHECK_STRIPID_MATCH_LOTID)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_CHECK_PRODUCT_TYPE)->GetSafeHwnd(), _T(""), _T(""));
-	SetWindowTheme(GetDlgItem(IDC_FINS_CHECK_MES_CHECK)->GetSafeHwnd(), _T(""), _T(""));
-	SetWindowTheme(GetDlgItem(IDC_CHECK_MES_AUTO_LOT)->GetSafeHwnd(), _T(""), _T(""));
-	
-
 	SetWindowTheme(GetDlgItem(IDC_CHECK_VISION)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_CHECK_PLC)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_FINS_CHECK)->GetSafeHwnd(), _T(""), _T(""));
+	SetWindowTheme(GetDlgItem(IDC_CHECK_REMOTE_LOT)->GetSafeHwnd(), _T(""), _T(""));
+	SetWindowTheme(GetDlgItem(IDC_CHECK_FINISH_LOT)->GetSafeHwnd(), _T(""), _T(""));
+
 }
 
 void CDlgFactorySet::UpdateUIFromConfig()
@@ -1015,6 +1026,15 @@ void CDlgFactorySet::UpdateUIFromConfig()
 	((CButton*)GetDlgItem(IDC_CHECK_PRODUCT_TYPE))->SetCheck(m_pFactoryConfig->m_bCheckProductType);
 	((CButton*)GetDlgItem(IDC_CHECK_PLC))->SetCheck(m_pFactoryConfig->m_bCheckPLCSwitchProcess);
 	((CButton*)GetDlgItem(IDC_FINS_CHECK))->SetCheck(m_pFactoryConfig->m_bCheckFinsPLC);
+
+	//
+	((CButton*)GetDlgItem(IDC_CHECK_FINISH_LOT))->SetCheck(m_pFactoryConfig->m_EnableFinishedLot);
+	((CButton*)GetDlgItem(IDC_CHECK_REMOTE_LOT))->SetCheck(m_pFactoryConfig->m_EnableRemoteLotURL);
+	SetDlgItemText(IDC_EDIT_URL_FINISH_LOT, m_pFactoryConfig->m_FinishedLotIP);
+    SetDlgItemText(IDC_EDIT_URL_REMOTE_LOT, m_pFactoryConfig->m_RemotLotURL);
+
+
+
 	
 	 m_combo2DRepeatMode.SetCurSel(m_pFactoryConfig->m_nCheck2DBarcodeRepeat);
 }
@@ -1061,20 +1081,22 @@ void CDlgFactorySet::SaveConfigFromUI()
 	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_bCheckVisionSwitchProcess"), ((CButton*)GetDlgItem(IDC_CHECK_VISION))->GetCheck());
 	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_bCheckPLCSwitchProcess"), ((CButton*)GetDlgItem(IDC_CHECK_PLC))->GetCheck());
 	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_bCheckFinsPLC"), ((CButton*)GetDlgItem(IDC_FINS_CHECK))->GetCheck());
-
-	// 启用mes校验
-	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableFinishedLot"), ((CButton*)GetDlgItem(IDC_FINS_CHECK_MES_CHECK))->GetCheck());
-
-
 	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_sStampPath"), m_sStampFile);
 	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_sGFHPath"), m_sGFHPath);
 	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_sLaserParamSave"), m_sLaserParamSave);
 	SETCHANGEDETECT->CompareAndChangeIntVar(_T("m_nCheck2DBarcodeRepeat"), m_combo2DRepeatMode.GetCurSel());
 	SETCHANGEDETECT->CompareAndChangeIntVar(_T("m_iVisionCheckPort"), GetDlgItemInt(IDC_EDIT_PORT3));
 	SETCHANGEDETECT->CompareAndChangeIntVar(_T("m_iFinsPort"), GetDlgItemInt(IDC_EDIT_FINS_PORT));
+
+	//
+	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableFinishedLot"), ((CButton*)GetDlgItem(IDC_CHECK_FINISH_LOT))->GetCheck());
+	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableRemoteLotURL"), ((CButton*)GetDlgItem(IDC_CHECK_REMOTE_LOT))->GetCheck());
 	CString strInfo;
-	GetDlgItemText(IDC_EDIT_URL_FINISHED_LOT, strInfo);
-	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_FinishedLotUrl"), strInfo);
+	GetDlgItemText(IDC_EDIT_URL_FINISH_LOT, strInfo);
+	
+	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_FinishedLotIP"), strInfo);
+	GetDlgItemText(IDC_EDIT_URL_REMOTE_LOT, strInfo);
+	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_RemotLotURL"), strInfo);
 
 	
 
@@ -1082,7 +1104,7 @@ void CDlgFactorySet::SaveConfigFromUI()
 	GetDlgItemText(IDC_EDIT_FINS_IP, str);
 	SETCHANGEDETECT->CompareAndChangeStringVar(_T("m_sFinsIP"), str);
 
-	
+
 
 	m_pFactoryConfig->SaveConfig();
 }

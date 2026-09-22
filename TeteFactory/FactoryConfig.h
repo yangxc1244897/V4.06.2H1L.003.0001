@@ -116,11 +116,10 @@ public:
 	DPoint_t m_dpRotateCenter{0, 0};  // 旋转中心
 
 	//
-	CString m_FinishedLotIP;
-
-	CString  m_FinishedLotUrl;//结批校验url
-   
-	bool   m_EnableFinishedLot;  // 是否启用完成批次上传功能
+	CString  m_FinishedLotIP;
+	bool     m_EnableFinishedLot;
+	CString  m_RemotLotURL;
+	bool     m_EnableRemoteLotURL;
 public:
     static CFactoryConfig *Instance();
     ~CFactoryConfig();

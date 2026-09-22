@@ -12,8 +12,8 @@
 #include"MyNSocketServer.h"
 #define COM_TIME_OUT  60
 const int STEPLEN = 1024 * 4;
-const CString g_sWindowText = _T("深圳泰德激光IC激光标记系统 V4.06.2H1L.NJHT.0087");
-const CString g_sUpdateTime = _T("2026-08-06");
+const CString g_sWindowText = _T("深圳泰德激光IC激光标记系统 V4.06.2H1L.NJHT.0090");
+const CString g_sUpdateTime = _T("2026-09-22");
 #define MARKSTATUS_IDLE _T("空闲状态")
 #define MARKSTATUS_LOADJOB _T("作业已加载")
 #define MARKSTATUS_MARK _T("正在标记")

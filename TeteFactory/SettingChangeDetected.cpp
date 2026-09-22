@@ -151,9 +151,15 @@ bool CSettingChangeDetected::CompareAndChangeBoolVar(const CString& sVariableNam
 	else if (_T("m_EnableFinishedLot") == sVariableName)
 	{
 		if (m_FactoryConfig->m_EnableFinishedLot == bNow) return false;
-		sTip.Format("Mes 远程校验:从[%s]修改为[%s]", m_FactoryConfig->m_EnableFinishedLot ? "启用" : "不启用", bNow ? "启用" : "不启用");
+		sTip.Format("启用远程校验结批:从[%s]修改为[%s]", m_FactoryConfig->m_EnableFinishedLot ? "启用" : "不启用", bNow ? "启用" : "不启用");
 		m_FactoryConfig->m_EnableFinishedLot = bNow;
 	}
+	else if (_T("m_EnableRemoteLotURL") == sVariableName)
+	{
+		if (m_FactoryConfig->m_EnableRemoteLotURL == bNow) return false;
+		sTip.Format("启用远程下载Lot:从[%s]修改为[%s]", m_FactoryConfig->m_EnableRemoteLotURL ? "启用" : "不启用", bNow ? "启用" : "不启用");
+		m_FactoryConfig->m_EnableRemoteLotURL = bNow;
+		}
 	else
 	{
 
@@ -222,7 +228,6 @@ bool CSettingChangeDetected::CompareAndChangeIntVar(const CString& sVariableName
 		sTip.Format("Fins客户端端口:从[%d]修改为[%d]", m_FactoryConfig->m_iFinsPort, iNow);
 		m_FactoryConfig->m_iFinsPort = iNow;
 	}
-
 	
 	else
 	{
@@ -379,12 +384,17 @@ bool CSettingChangeDetected::CompareAndChangeStringVar(const CString& sVariableN
 		sTip.Format("Fins客户端ip:从[%s]修改为[%s]", CStringA(m_FactoryConfig->m_sFinsIP), CStringA(sNow));
 		m_FactoryConfig->m_sFinsIP = sNow;
 	}
-	else if (_T("m_FinishedLotUrl") == sVariableName)
+	else if (_T("m_FinishedLotIP") == sVariableName)
 	{
-		if (m_FactoryConfig->m_FinishedLotUrl == sNow) return false;
-		sTip.Format("校验mes 网络端口:从[%s]修改为[%s]", CStringA(m_FactoryConfig->m_FinishedLotUrl),CStringA(sNow));
-		m_FactoryConfig->m_FinishedLotUrl = sNow;
-
+		if (m_FactoryConfig->m_FinishedLotIP == sNow) return false;
+		sTip.Format("远程结批校验url :从[%s]修改为[%s]", CStringA(m_FactoryConfig->m_FinishedLotIP), CStringA(sNow));
+		m_FactoryConfig->m_FinishedLotIP = sNow;
+	}
+	else if (_T("m_RemotLotURL") == sVariableName)
+	{
+		if (m_FactoryConfig->m_RemotLotURL == sNow) return false;
+		sTip.Format("远程Lot下载url :从[%s]修改为[%s]", CStringA(m_FactoryConfig->m_RemotLotURL), CStringA(sNow));
+		m_FactoryConfig->m_RemotLotURL = sNow;
 		}
 	else
 	{
