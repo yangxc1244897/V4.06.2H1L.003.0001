@@ -120,6 +120,8 @@ public:
 	bool     m_EnableFinishedLot;
 	CString  m_RemotLotURL;
 	bool     m_EnableRemoteLotURL;
+	// 启用远程stripid soap校验每一片
+	bool     m_EnableStripIDSoap;
 public:
     static CFactoryConfig *Instance();
     ~CFactoryConfig();

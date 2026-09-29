@@ -6113,7 +6113,7 @@ bool CFormWorkControl::GetAndCheckLotID(CString &sLotID)  //LotID检测与转化
 		if (!bMatch)
 		{
 			CString s;
-			s.Format(_T("过站信息[设备ID:%s, LotID:%s]检查失败。详细失败原因：%s"), m_pConfig->m_sDeviceNo, m_sLotIDCur, m_pMySoap->GetLastError());
+			s.Format(_T("GetAndCheckLotID::过站信息[设备ID:%s, LotID:%s]检查失败。详细失败原因：%s"), m_pConfig->m_sDeviceNo, m_sLotIDCur, m_pMySoap->GetLastError());
 			AfxMessageBox(s);
 			return FALSE;
 		}
@@ -6150,16 +6150,21 @@ bool CFormWorkControl::VerifyStripID(const CString &sStripID)  //检查StripID批次
 	}
 
 	// Add by hhhuang 20260818: 每次扫描StripID后，也要检查对应的工单的过站信息
-	if (!USER_VERIFY(USER_O_IGNORE_CHECK_EQUIPMENTID))
+
+	if (CFactoryConfig::Instance()->m_EnableStripIDSoap)
 	{
-		m_pMySoap->SetUrl(m_pConfig->m_sMesTrackInUrl);
-		BOOL bMatch = m_pMySoap->IsEquipmentTrackInLotId(m_pConfig->m_sDeviceNo, m_sLotIDCur);
-		if (!bMatch)
+		if (!USER_VERIFY(USER_O_IGNORE_CHECK_EQUIPMENTID))
 		{
-			msg.Format(_T("过站信息[设备ID:%s, LotID:%s]检查失败。详细失败原因：%s"), m_pConfig->m_sDeviceNo, m_sLotIDCur, m_pMySoap->GetLastError());
-			PrintMessage(emMsgType_Error, msg);
-			return false;
+			m_pMySoap->SetUrl(m_pConfig->m_sMesTrackInUrl);
+			BOOL bMatch = m_pMySoap->IsEquipmentTrackInLotId(m_pConfig->m_sDeviceNo, m_sLotIDCur);
+			if (!bMatch)
+			{
+				msg.Format(_T("过站信息[设备ID:%s, LotID:%s]检查失败。详细失败原因：%s"), m_pConfig->m_sDeviceNo, m_sLotIDCur, m_pMySoap->GetLastError());
+				PrintMessage(emMsgType_Error, msg);
+				return false;
+			}
 		}
+
 	}
 
 	int iRet = VerifyRepeatStripID(sStripID);
@@ -6284,7 +6289,7 @@ BOOL CFormWorkControl::SwitchVisionProcess()
 void CFormWorkControl::OnBnClickedCheckTryDummy()
 {
 	// TODO: 在此添加控件通知处理程序代码
-
+	
 	if (IsDummy())
 	{
 		// 首检选打，在工程师权限下不限次数选用
@@ -6653,11 +6658,11 @@ void CFormWorkControl::OnLbnSelchangeListLaserParam()
 
 BOOL CFormWorkControl::CheckMesInfo()
 {
-	if (!CFactoryConfig::Instance()->m_FinishedLotIP)
+	if (!CFactoryConfig::Instance()->m_EnableFinishedLot)
 	{
 		return TRUE;
 	}
-	LoadeLotInfo();
+	LoadeLotMapInfo();
 	if (m_mapLotReport.size() == 0)
 	{
 		PrintMesMessage(emFactoryMsgType_t::emMsgType_Normal,_T("OK数量:0 不进行上报处理"));
@@ -6822,13 +6827,13 @@ CString CFormWorkControl::toString(int value)
 	return str;
 }
 
-BOOL CFormWorkControl::LoadeLotInfo()
+BOOL CFormWorkControl::LoadeLotMapInfo()
 {
 	CSingleLock lock(&m_csLockFile);
 	lock.Lock();
 	CString strPath;
 	strPath.Format(_T("%s\\批次信息\\LotInfoStatus.csv"), m_pConfig->m_sLogFilePath);//
-
+	m_mapLotReport.clear();
 	CCsvFile csvFile;
 	CString strRead;
 	vector<CString>vRead;

@@ -451,7 +451,7 @@ public:
 	BOOL SaveLotInfo(CString LotID);
 	CCriticalSection m_csLockFile;
 	CString toString(int value);
-	BOOL LoadeLotInfo();
+	BOOL LoadeLotMapInfo();
 	CCsvFile m_csvFile;
 	void ResetMesMapping();
 

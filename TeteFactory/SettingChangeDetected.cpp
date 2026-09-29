@@ -159,7 +159,14 @@ bool CSettingChangeDetected::CompareAndChangeBoolVar(const CString& sVariableNam
 		if (m_FactoryConfig->m_EnableRemoteLotURL == bNow) return false;
 		sTip.Format("启用远程下载Lot:从[%s]修改为[%s]", m_FactoryConfig->m_EnableRemoteLotURL ? "启用" : "不启用", bNow ? "启用" : "不启用");
 		m_FactoryConfig->m_EnableRemoteLotURL = bNow;
-		}
+	}
+	else if (_T("m_EnableStripIDSoap") == sVariableName)
+	{
+		if (m_FactoryConfig->m_EnableStripIDSoap == bNow) return false;
+		sTip.Format("启用远程stripid 校验 :从[%s]修改为[%s]", m_FactoryConfig->m_EnableStripIDSoap ? "启用" : "不启用", bNow ? "启用" : "不启用");
+		m_FactoryConfig->m_EnableStripIDSoap = bNow;
+
+	}
 	else
 	{
 

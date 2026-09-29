@@ -143,7 +143,9 @@ void CFactoryConfig::LoadConfig(void)
 	m_EnableFinishedLot = GetData(_T("Global"), _T("m_EnableFinishedLot"), false);
 	m_RemotLotURL = GetData(_T("Global"), _T("m_RemotLotURL"), CString(_T("172.25.1.103")));
 	m_EnableRemoteLotURL = GetData(_T("Global"), _T("m_EnableRemoteLotURL"), false);
+	m_EnableStripIDSoap = GetData(_T("Global"), _T("m_EnableStripIDSoap"), true);
 
+	
 
 	memset(buff, sizeof buff, 0);
 	GetPrivateProfileString(_T("Global"), _T("m_FinsIP"), _T("192.168.100.100"), buff, 1024, g_sConfigPath);
@@ -258,6 +260,10 @@ void CFactoryConfig::SaveConfig(void)
 
 	WriteData(_T("Global"), _T("m_RemotLotURL"), m_RemotLotURL);
 	WriteData(_T("Global"), _T("m_EnableRemoteLotURL"), m_EnableRemoteLotURL);
+	WriteData(_T("Global"), _T("m_EnableStripIDSoap"), m_EnableStripIDSoap);
+
+	
+
 	WritePrivateProfileString(_T("Global"), _T("m_FinsIP"), m_sFinsIP, g_sConfigPath);
 }
 

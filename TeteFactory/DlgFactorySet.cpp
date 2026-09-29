@@ -519,7 +519,8 @@ void CDlgFactorySet::EnableControlByRights()  //根据权限决定是否可操作
 	GetDlgItem(IDC_FINS_CHECK)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_CHECK_FINISH_LOT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
 	GetDlgItem(IDC_CHECK_REMOTE_LOT)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
-
+	GetDlgItem(IDC_CHECK_REMOTE_STRIPID)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
+	
 	
 	
 	GetDlgItem(IDC_VISION_CHECK)->EnableWindow(USER_VERIFY(USER_O_PLC_COMM_SET));
@@ -822,6 +823,7 @@ HBRUSH CDlgFactorySet::OnCtlColor(CDC* pDC, CWnd* pWnd, UINT nCtlColor)
 		|| nID == IDC_FINS_CHECK
 		|| nID == IDC_CHECK_FINISH_LOT
 		|| nID == IDC_CHECK_REMOTE_LOT
+		|| nID == IDC_CHECK_REMOTE_STRIPID
 		)
 	{
 		pDC->SetTextColor(STATIC_COLOR);// 设置编辑框字体的颜色
@@ -975,6 +977,7 @@ void CDlgFactorySet::SetGroupCheckRadioTheme()
 	SetWindowTheme(GetDlgItem(IDC_CHECK_PLC)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_FINS_CHECK)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_CHECK_REMOTE_LOT)->GetSafeHwnd(), _T(""), _T(""));
+	SetWindowTheme(GetDlgItem(IDC_CHECK_REMOTE_STRIPID)->GetSafeHwnd(), _T(""), _T(""));
 	SetWindowTheme(GetDlgItem(IDC_CHECK_FINISH_LOT)->GetSafeHwnd(), _T(""), _T(""));
 
 }
@@ -1030,6 +1033,8 @@ void CDlgFactorySet::UpdateUIFromConfig()
 	//
 	((CButton*)GetDlgItem(IDC_CHECK_FINISH_LOT))->SetCheck(m_pFactoryConfig->m_EnableFinishedLot);
 	((CButton*)GetDlgItem(IDC_CHECK_REMOTE_LOT))->SetCheck(m_pFactoryConfig->m_EnableRemoteLotURL);
+	((CButton*)GetDlgItem(IDC_CHECK_REMOTE_STRIPID))->SetCheck(m_pFactoryConfig->m_EnableStripIDSoap);
+
 	SetDlgItemText(IDC_EDIT_URL_FINISH_LOT, m_pFactoryConfig->m_FinishedLotIP);
     SetDlgItemText(IDC_EDIT_URL_REMOTE_LOT, m_pFactoryConfig->m_RemotLotURL);
 
@@ -1091,6 +1096,7 @@ void CDlgFactorySet::SaveConfigFromUI()
 	//
 	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableFinishedLot"), ((CButton*)GetDlgItem(IDC_CHECK_FINISH_LOT))->GetCheck());
 	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableRemoteLotURL"), ((CButton*)GetDlgItem(IDC_CHECK_REMOTE_LOT))->GetCheck());
+	SETCHANGEDETECT->CompareAndChangeBoolVar(_T("m_EnableStripIDSoap"), ((CButton*)GetDlgItem(IDC_CHECK_REMOTE_STRIPID))->GetCheck());
 	CString strInfo;
 	GetDlgItemText(IDC_EDIT_URL_FINISH_LOT, strInfo);
 	
